@@ -24,7 +24,7 @@ namespace Site.Controllers
             return View();
         }
 
-        public IActionResult Remover()
+        public IActionResult RemoverConfirmacao()
         {
             return View();
         }
