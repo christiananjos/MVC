@@ -1,4 +1,69 @@
 ﻿@{
     ViewData["Title"] = "Listagem de Clientes";
 }
-<h1>Listagem de Clientes</h1>
+
+<div class="text-center">
+    <div class="d-grid gap-2 d-md-flex justify-md-start">
+        <a role="button" class="btn btn-primary">Novo Cliente</a>
+    </div>
+    <br />
+
+    <h4 class="display-4">Listagem de Clientes</h4>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Email</th>
+                <th scope="col">Logotipo</th>
+                <th scope="col">Logradouro</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Christian</td>
+                <td>christiananjos@hotmail.com</td>
+                <td>imagem.png</td>
+                <td>Rua teste 1</td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <a role="button" class="btn btn-info">Detalhes</a>
+                        <a role="button" class="btn btn-primary">Editar</a>
+                        <a role="button" class="btn btn-danger">Remover</a>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>Douglas</td>
+                <td>christiananjos@hotmail.com</td>
+                <td>imagem2.png</td>
+                <td>Rua teste 2</td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <a role="button" class="btn btn-info">Detalhes</a>
+                        <a role="button" class="btn btn-primary">Editar</a>
+                        <a role="button" class="btn btn-danger">Remover</a>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>Anjos</td>
+                <td>christiananjos@hotmail.com</td>
+                <td>imagem3.png</td>
+                <td>Rua teste 3</td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <a role="button" class="btn btn-info">Detalhes</a>
+                        <a role="button" class="btn btn-primary">Editar</a>
+                        <a role="button" class="btn btn-danger">Remover</a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
