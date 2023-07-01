@@ -16,8 +16,24 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Projetos\MVC\Site\Site
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Projetos/MVC/Site/Site/Views/Cliente/Criar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50ZVxDcmlhci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Projetos/MVC/Site/Site/Views/Cliente/Detalhe.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50ZVxEZXRhbGhlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Projetos/MVC/Site/Site/Views/Cliente/Editar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50ZVxFZGl0YXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Projetos/MVC/Site/Site/Views/Cliente/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50ZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Projetos/MVC/Site/Site/Views/Cliente/Remover.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50ZVxSZW1vdmVyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Projetos/MVC/Site/Site/Views/Home/Index.cshtml]
