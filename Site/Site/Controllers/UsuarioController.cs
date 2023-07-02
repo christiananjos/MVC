@@ -38,17 +38,14 @@ namespace Site.Controllers
                 return RedirectToAction("Index");
             }
 
-            //ViewBag.ApplicationId = new SelectList(_applicationService.List(), "Id", "Name");
-
             return View(usuario);
         }
 
         public ActionResult Editar(int id)
         {
-            var role = _service.Find(id);
-            //ViewBag.ApplicationId = new SelectList(_applicationService.List(), "Id", "Name", role.ApplicationId);
+            var usuario = _service.Find(id);
 
-            return View(_service.Find(id));
+            return View(usuario);
         }
 
         [HttpPost]
@@ -60,7 +57,6 @@ namespace Site.Controllers
                 return RedirectToAction("Index");
             }
 
-            //ViewBag.ApplicationId = new SelectList(_applicationService.List(), "Id", "Name", role.ApplicationId);
             return View(usuario);
         }
         #endregion
