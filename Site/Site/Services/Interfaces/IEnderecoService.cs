@@ -1,7 +1,6 @@
 ﻿using Site.Models;
-using Site.Services.Interfaces;
 
-namespace Site.Services
+namespace Site.Services.Interfaces
 {
     public interface IEnderecoService : IBaseService<Endereco>, IDisposable
     {
