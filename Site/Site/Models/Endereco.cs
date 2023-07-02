@@ -1,4 +1,6 @@
-﻿namespace Site.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Site.Models
 {
     public class Endereco : IBase
     {
@@ -14,13 +16,36 @@
         //}
 
         public Guid Id { get; set; }
+
+
         public Cliente Cliente { get; set; }
+
+        [Required(ErrorMessage = "Campo obrigatório.")]
+        [Display(Name = "ClienteId")]
         public Guid ClienteId { get; set; }
+
+        [Required(ErrorMessage = "Campo obrigatório.")]
+        [Display(Name = "Logradouro")]
         public string Logradouro { get; set; }
+
+        [Required(ErrorMessage = "Campo obrigatório.")]
+        [Display(Name = "Numero")]
         public int Numero { get; set; }
+
+        [Required(ErrorMessage = "Campo obrigatório.")]
+        [Display(Name = "Complemento")]
         public string Complemento { get; set; }
+
+        [Required(ErrorMessage = "Campo obrigatório.")]
+        [Display(Name = "CEP")]
         public int CEP { get; set; }
+
+        [Required(ErrorMessage = "Campo obrigatório.")]
+        [Display(Name = "UF")]
         public char UF { get; set; }
+
+        [Required(ErrorMessage = "Campo obrigatório.")]
+        [Display(Name = "Estado")]
         public string Estado { get; set; }
     }
 }
