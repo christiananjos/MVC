@@ -17,21 +17,20 @@ namespace Site.Controllers
             return View(_service.List());
         }
 
-        public ViewResult Details(Guid id)
+        public ViewResult Detalhes(Guid id)
         {
             return View(_service.List()
                 .Where(r => r.Id == id)
                 .First());
         }
 
-        public ActionResult Create()
+        public ActionResult Criar()
         {
-            //ViewBag.ApplicationId = new SelectList(_applicationService.List(), "Id", "Name");
             return View();
         }
 
         [HttpPost]
-        public ActionResult Create(Usuario usuario)
+        public ActionResult Criar(Usuario usuario)
         {
             if (_service.ValidarExistente(usuario))
             {
@@ -40,20 +39,20 @@ namespace Site.Controllers
             }
 
             //ViewBag.ApplicationId = new SelectList(_applicationService.List(), "Id", "Name");
-            
+
             return View(usuario);
         }
 
-        public ActionResult Edit(int id)
+        public ActionResult Editar(int id)
         {
             var role = _service.Find(id);
             //ViewBag.ApplicationId = new SelectList(_applicationService.List(), "Id", "Name", role.ApplicationId);
-            
+
             return View(_service.Find(id));
         }
 
         [HttpPost]
-        public ActionResult Edit(Usuario usuario)
+        public ActionResult Editar(Usuario usuario)
         {
             if (_service.ValidarExistente(usuario))
             {
