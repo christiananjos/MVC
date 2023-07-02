@@ -9,5 +9,6 @@ namespace Site.Repositories.Interfaces
         void Add(T item);
         void Remove(T item);
         void Edit(T item);
+        void Dispose();
     }
 }
