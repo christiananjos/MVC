@@ -7,14 +7,12 @@ namespace Site.Repositories
 {
     public class ClienteRepository : BaseRepository<Cliente>, IClienteRepository
     {
-        private Context _context;
+        IUnitOfWork unitOfWork = new Context();
 
-        public ClienteRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public ClienteRepository(IUnitOfWork unitOfWork)
+             : base(unitOfWork)
         {
-            if (unitOfWork == null)
-                throw new ArgumentNullException("unitOfWork");
 
-            _context = (Context)unitOfWork;
         }
     }
 }

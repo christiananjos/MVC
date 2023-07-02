@@ -7,14 +7,12 @@ namespace Site.Repositories
 {
     public class EnderecoRepository : BaseRepository<Endereco>, IEnderecoRepository
     {
-        private Context _context;
+        IUnitOfWork unitOfWork = new Context();
 
-        public EnderecoRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public EnderecoRepository(IUnitOfWork unitOfWork)
+             : base(unitOfWork)
         {
-            if (unitOfWork == null)
-                throw new ArgumentNullException("unitOfWork");
 
-            _context = (Context)unitOfWork;
         }
     }
 }

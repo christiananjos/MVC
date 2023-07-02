@@ -9,25 +9,44 @@ namespace Site.Repositories
     {
         private Context _context;
 
+        #region Ctor
         public BaseRepository(IUnitOfWork unitOfWork)
         {
             if (unitOfWork == null)
                 throw new ArgumentNullException("unitOfWork");
 
-            _context = (Context)unitOfWork;
+            _context = unitOfWork as Context;
+        }
+        #endregion
+
+        public T Find(int id)
+        {
+            return _context.Set<T>().Find(id);
         }
 
+        public IQueryable<T> List()
+        {
+            return _context.Set<T>();
+        }
 
-        public T Find(int id) => _context.Set<T>().Find(id);
+        public void Add(T item)
+        {
+            _context.Set<T>().Add(item);
+        }
 
-        public IQueryable<T> List() => _context.Set<T>();
+        public void Remove(T item)
+        {
+            _context.Set<T>().Remove(item);
+        }
 
-        public void Add(T item) => _context.Set<T>().Add(item);
+        public void Edit(T item)
+        {
+            _context.Entry(item).State = EntityState.Modified;
+        }
 
-        public void Remove(T item) => _context.Set<T>().Remove(item);
-
-        public void Edit(T item) => _context.Entry(item).State = EntityState.Modified;
-
-        public void Dispose() => _context.Dispose();
+        public void Dispose()
+        {
+            _context.Dispose();
+        }
     }
 }
