@@ -2,8 +2,8 @@
 
 namespace Site.Services.Interfaces
 {
-    public interface IClienteService : IBaseService<Cliente>, IDisposable
+    public interface IClienteService : IBaseService<Cliente>
     {
-        bool ValidarExistente(Cliente cliente);
+        Task<bool> ValidarExistente(Cliente cliente);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Site.Repositories.Interfaces
 {
-    public interface IUsuarioRepository : IBaseRepository<Usuario>, IDisposable
+    public interface IUsuarioRepository : IBaseRepository<Usuario>
     {
     }
 }

@@ -5,48 +5,55 @@ using Site.Repositories.Interfaces;
 
 namespace Site.Repositories
 {
-    public class BaseRepository<T> : IDisposable, IBaseRepository<T> where T : class
+    public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
     {
-        private Context _context;
+        protected readonly Context _dbContext;
 
-        #region Ctor
-        public BaseRepository(IUnitOfWork unitOfWork)
+
+        public BaseRepository(Context context)
         {
-            if (unitOfWork == null)
-                throw new ArgumentNullException("unitOfWork");
-
-            _context = unitOfWork as Context;
-        }
-        #endregion
-
-        public T Find(int id)
-        {
-            return _context.Set<T>().Find(id);
+            _dbContext = context;
         }
 
-        public IQueryable<T> List()
+        public async Task<T> GetById(Guid id)
         {
-            return _context.Set<T>();
+            return await _dbContext.Set<T>().FindAsync(id);
         }
 
-        public void Add(T item)
+        public async Task<IEnumerable<T>> GetAll()
         {
-            _context.Set<T>().Add(item);
+            return await _dbContext.Set<T>().ToListAsync();
         }
 
-        public void Remove(T item)
+        public async Task Add(T entity)
         {
-            _context.Set<T>().Remove(item);
+            await _dbContext.Set<T>().AddAsync(entity);
         }
 
-        public void Edit(T item)
+        public void Delete(T entity)
         {
-            _context.Entry(item).State = EntityState.Modified;
+            _dbContext.Set<T>().Remove(entity);
         }
 
-        public void Dispose()
+        public void Update(T entity)
         {
-            _context.Dispose();
+            _dbContext.Set<T>().Update(entity);
+        }
+
+        public bool ValidaExistente(T entity)
+        {
+            if (entity != null)
+            {
+                var query = _dbContext.Set<T>().Find(entity);
+
+                if (query != null)
+                {
+                    return true;
+                }
+
+            }
+
+            return false;
         }
     }
 }

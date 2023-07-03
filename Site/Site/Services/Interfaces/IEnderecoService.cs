@@ -2,7 +2,7 @@
 
 namespace Site.Services.Interfaces
 {
-    public interface IEnderecoService : IBaseService<Endereco>, IDisposable
+    public interface IEnderecoService : IBaseService<Endereco>
     {
     }
 }

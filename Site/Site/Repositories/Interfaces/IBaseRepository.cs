@@ -1,14 +1,12 @@
-﻿using System.Security.Principal;
-
-namespace Site.Repositories.Interfaces
+﻿namespace Site.Repositories.Interfaces
 {
     public interface IBaseRepository<T> where T : class
     {
-        T Find(int id);
-        IQueryable<T> List();
-        void Add(T item);
-        void Remove(T item);
-        void Edit(T item);
-        void Dispose();
+        Task<T> GetById(Guid id);
+        Task<IEnumerable<T>> GetAll();
+        Task Add(T entity);
+        void Delete(T entity);
+        void Update(T entity);
+        bool ValidaExistente(T entity);
     }
 }

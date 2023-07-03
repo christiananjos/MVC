@@ -7,12 +7,9 @@ namespace Site.Repositories
 {
     public class EnderecoRepository : BaseRepository<Endereco>, IEnderecoRepository
     {
-        private readonly IUnitOfWork unitOfWork;
-
-        public EnderecoRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public EnderecoRepository(Context dbContext) : base(dbContext)
         {
-            if (unitOfWork == null)
-                throw new ArgumentNullException("unitOfWork");
+
         }
     }
 }

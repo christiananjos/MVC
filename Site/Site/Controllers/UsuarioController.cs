@@ -41,7 +41,7 @@ namespace Site.Controllers
             return View(usuario);
         }
 
-        public ActionResult Editar(int id)
+        public ActionResult Editar(Guid id)
         {
             var usuario = _service.Find(id);
 

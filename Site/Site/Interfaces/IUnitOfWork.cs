@@ -1,7 +1,12 @@
-﻿namespace Site.Interfaces
+﻿using Site.Repositories.Interfaces;
+
+namespace Site.Interfaces
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
-        void Save();
+        IUsuarioRepository Usuarios { get; }
+        IClienteRepository Clientes { get; }
+        IEnderecoRepository Enderecos { get; }
+        int Save();
     }
 }

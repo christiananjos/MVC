@@ -1,28 +1,106 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using Site.Interfaces;
 using Site.Models;
 using Site.Services.Interfaces;
-using System.Data;
 
 namespace Site.Services
 {
-    public class UsuarioService : BaseService<Usuario>, IUsuarioService
+    public class UsuarioService : IUsuarioService
     {
-        private ModelStateDictionary _modelState;
+        public IUnitOfWork _unitOfWork;
+        public UsuarioService(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
 
-        public UsuarioService(ModelStateDictionary modelState)
+        public async Task<bool> Add(Usuario entity)
         {
-            _modelState = modelState;
+            if (entity != null)
+            {
+                await _unitOfWork.Usuarios.Add(entity);
+
+                var result = _unitOfWork.Save();
+
+                if (result > 0)
+                    return true;
+                else
+                    return false;
+            }
+            return false;
         }
 
-        public bool ValidarExistente(Usuario item)
+        public async Task<bool> Delete(Guid id)
         {
-            if (item.Id.ToString() == null)
+            if (id.ToString() != null)
             {
-                if (List().Where(c => c.Usernaname == item.Usernaname).Count() > 0)
-                    _modelState.AddModelError("Usernaname", "Usuario já cadastrado");
+                var UsuarioQuery = await _unitOfWork.Usuarios.GetById(id);
+
+                if (UsuarioQuery != null)
+                {
+                    _unitOfWork.Usuarios.Delete(UsuarioQuery);
+
+                    var result = _unitOfWork.Save();
+
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+            }
+            return false;
+        }
+
+        public async Task<IEnumerable<Usuario>> GetAll()
+        {
+            var usuarios = await _unitOfWork.Usuarios.GetAll();
+
+            return usuarios;
+        }
+
+        public async Task<Usuario> GetById(Guid id)
+        {
+            if (id.ToString() != null)
+            {
+                var UsuarioQuery = await _unitOfWork.Usuarios.GetById(id);
+
+                if (UsuarioQuery != null)
+                    return UsuarioQuery;
+
+            }
+            return null;
+        }
+
+        public async Task<bool> Update(Usuario entity)
+        {
+            if (entity != null)
+            {
+                var usuarioQuery = await _unitOfWork.Usuarios.GetById(entity.Id);
+
+                if (usuarioQuery != null)
+                {
+                    usuarioQuery.Usernaname = entity.Usernaname;
+                    usuarioQuery.Password = entity.Password;
+                   
+
+                    _unitOfWork.Usuarios.Update(usuarioQuery);
+
+                    var result = _unitOfWork.Save();
+
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+            }
+            return false;
+        }
+
+        public bool ValidarExistente(Usuario usuario)
+        {
+            if (usuario != null)
+            {
+                var usuarioExist = _unitOfWork.Usuarios.ValidaExistente(usuario);
+                return usuarioExist;
+
             }
 
-            return _modelState.IsValid;
+            return false;
         }
     }
 }
