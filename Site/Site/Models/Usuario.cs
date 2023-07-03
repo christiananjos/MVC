@@ -2,7 +2,7 @@
 
 namespace Site.Models
 {
-    public class Usuario : IBase
+    public class Usuario
     {
         public Usuario(string usernaname, string password, bool ativo)
         {

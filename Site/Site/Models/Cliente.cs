@@ -2,7 +2,7 @@
 
 namespace Site.Models
 {
-    public class Cliente : IBase
+    public class Cliente
     {
         public Cliente(string nome, string email, string avatarPath)
         {
