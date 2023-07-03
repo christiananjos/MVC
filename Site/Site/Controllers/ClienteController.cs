@@ -1,43 +1,44 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Site.Repositories.Interfaces;
+using Site.Services.Interfaces;
 
 namespace Site.Controllers
 {
     public class ClienteController : Controller
     {
-        private readonly IClienteRepository _repository;
-        public ClienteController(IClienteRepository repository)
+        private readonly IClienteService _clienteService;
+        public ClienteController(IClienteService service) => _clienteService = service;
+        public  IActionResult Index()
         {
-            _repository = repository;
-        }
-        public async Task<IActionResult> Index()
-        {
-            //var cliente = new Cliente("Christian", "christiananjos@hotmail.com", "c:...");
-           
-            //_repository.Add(cliente);
+            var clientes = _clienteService.GetAll();
 
-            //var coolestCategory = _repository.Find(cliente.Id);
-
-            return View();
+            return View(clientes);
         }
 
         public IActionResult Criar()
         {
+            //var cliente = _clienteService.Add(id);
+            
             return View();
         }
 
         public IActionResult Editar()
         {
+            //var cliente = _clienteService.Add(id);
+
             return View();
         }
 
         public IActionResult Detalhe()
         {
+            //var cliente = _clienteService.GetById(id);
+            
             return View();
         }
 
         public IActionResult RemoverConfirmacao()
         {
+            //var cliente = _clienteService.Add(id);
+
             return View();
         }
     }

@@ -1,27 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Site.Models;
-using Site.Services;
 using Site.Services.Interfaces;
-using System.Data;
 
 namespace Site.Controllers
 {
     public class UsuarioController : Controller
     {
-        IUsuarioService _service;
+        private readonly IUsuarioService _usuarioService;
 
-        public UsuarioController() => _service = new UsuarioService(ModelState);
-        #region Actions
+        public UsuarioController(IUsuarioService usuarioService)
+        {
+            _usuarioService = usuarioService;
+        }
+
         public ActionResult Index()
         {
-            return View(_service.List());
+            return View();
         }
 
         public ViewResult Detalhes(Guid id)
         {
-            return View(_service.List()
-                .Where(r => r.Id == id)
-                .First());
+            return View();
         }
 
         public ActionResult Criar()
@@ -32,39 +31,18 @@ namespace Site.Controllers
         [HttpPost]
         public ActionResult Criar(Usuario usuario)
         {
-            if (_service.ValidarExistente(usuario))
-            {
-                _service.Add(usuario);
-                return RedirectToAction("Index");
-            }
-
-            return View(usuario);
+            return View();
         }
 
         public ActionResult Editar(Guid id)
         {
-            var usuario = _service.Find(id);
-
-            return View(usuario);
+            return View();
         }
 
         [HttpPost]
         public ActionResult Editar(Usuario usuario)
         {
-            if (_service.ValidarExistente(usuario))
-            {
-                _service.Edit(usuario);
-                return RedirectToAction("Index");
-            }
-
-            return View(usuario);
-        }
-        #endregion
-
-        protected override void Dispose(bool disposing)
-        {
-            _service.Dispose();
-            base.Dispose(disposing);
+            return View();
         }
     }
 }

@@ -4,6 +4,8 @@ using Site.Data;
 using Site.Interfaces;
 using Site.Repositories;
 using Site.Repositories.Interfaces;
+using Site.Services;
+using Site.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,10 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IEnderecoRepository, EnderecoRepository>();
+
+builder.Services.AddScoped<IClienteService, ClienteService>();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<IEnderecoService, EnderecoService>();
 
 builder.Services.AddSwaggerGen(options =>
 {
