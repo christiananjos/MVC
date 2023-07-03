@@ -7,12 +7,13 @@ namespace Site.Repositories
 {
     public class UsuarioRepository : BaseRepository<Usuario>, IUsuarioRepository
     {
-        IUnitOfWork unitOfWork = new Context();
+        
+        private readonly IUnitOfWork unitOfWork;
 
-        public UsuarioRepository(IUnitOfWork unitOfWork)
-             : base(unitOfWork)
+        public UsuarioRepository(IUnitOfWork unitOfWork): base(unitOfWork)
         {
-
+            if (unitOfWork == null)
+                throw new ArgumentNullException("unitOfWork");
         }
     }
 }

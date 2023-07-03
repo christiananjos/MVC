@@ -8,11 +8,14 @@ namespace Site.Services
 {
     public class BaseService<T> : IBaseService<T> where T : class
     {
-        IUnitOfWork unitOfWork = new Context();
+        private readonly IUnitOfWork unitOfWork;
         IBaseRepository<T> _repository;
 
         public BaseService()
         {
+            if (unitOfWork == null)
+                throw new ArgumentNullException("unitOfWork");
+
             _repository = new BaseRepository<T>(unitOfWork);
         }
 
