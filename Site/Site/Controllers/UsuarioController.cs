@@ -8,11 +8,9 @@ namespace Site.Controllers
     {
         private readonly IUsuarioService _usuarioService;
 
-        public UsuarioController(IUsuarioService usuarioService)
-        {
-            _usuarioService = usuarioService;
-        }
+        public UsuarioController(IUsuarioService usuarioService) => _usuarioService = usuarioService;
 
+        #region PAGINAS
         public ActionResult Index()
         {
             return View();
@@ -27,22 +25,18 @@ namespace Site.Controllers
         {
             return View();
         }
-
-        [HttpPost]
-        public ActionResult Criar(Usuario usuario)
-        {
-            return View();
-        }
-
-        public ActionResult Editar(Guid id)
-        {
-            return View();
-        }
-
-        [HttpPost]
         public ActionResult Editar(Usuario usuario)
         {
             return View();
         }
+
+        public ActionResult Listar()
+        {
+            return View();
+        }
+        #endregion
+
+        #region METODOS
+        #endregion
     }
 }
