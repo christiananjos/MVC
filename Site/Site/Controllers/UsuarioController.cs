@@ -37,6 +37,35 @@ namespace Site.Controllers
         #endregion
 
         #region METODOS
+        [HttpPost]
+        public ActionResult Create(Usuario usuario)
+        {
+            return Ok();
+        }
+
+        [HttpGet]
+        public ActionResult GetAll()
+        {
+            return Ok();
+        }
+
+        [HttpGet]
+        public ActionResult GetById(Guid id)
+        {
+            return Ok();
+        }
+
+        [HttpPut]
+        public ActionResult Update(Usuario usuario)
+        {
+            return Ok();
+        }
+
+        [HttpDelete]
+        public ActionResult Delete(Guid id)
+        {
+            return Ok();
+        }
         #endregion
     }
 }

@@ -4,15 +4,20 @@ namespace Site.Models
 {
     public class Endereco
     {
-        public Endereco(Guid clienteId, string logradouro, int numero, string complemento, int cep, char uf, string estado)
+        //public Endereco(Guid clienteId, string logradouro, int numero, string complemento, int cep, char uf, string estado)
+        //{
+        //    ClienteId = clienteId;
+        //    Logradouro = logradouro;
+        //    Numero = numero;
+        //    Complemento = complemento;
+        //    CEP = cep;
+        //    UF = uf;
+        //    Estado = estado;
+        //}
+
+        public Endereco()
         {
-            ClienteId = clienteId;
-            Logradouro = logradouro;
-            Numero = numero;
-            Complemento = complemento;
-            CEP = cep;
-            UF = uf;
-            Estado = estado;
+                
         }
 
         public Guid Id { get; set; }

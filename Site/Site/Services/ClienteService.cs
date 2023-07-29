@@ -92,17 +92,5 @@ namespace Site.Services
             }
             return false;
         }
-
-        public async Task<bool> ValidarExistente(Cliente cliente)
-        {
-            if (cliente != null)
-            {
-                var cli = _unitOfWork.Clientes.ValidaExistente(cliente);
-                return cli;
-
-            }
-
-            return false;
-        }
     }
 }

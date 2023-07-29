@@ -4,11 +4,10 @@ namespace Site.Models
 {
     public class Cliente
     {
-        public Cliente(string nome, string email, string avatarPath)
+        public Cliente(string nome, string email)
         {
             Nome = nome;
             Email = email;
-            AvatarPath = avatarPath;
         }
 
         public Guid Id { get; set; }

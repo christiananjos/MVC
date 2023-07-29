@@ -45,7 +45,6 @@ namespace Site.Services
             }
             return false;
         }
-
         public async Task<IEnumerable<Usuario>> GetAll()
         {
             var usuarios = await _unitOfWork.Usuarios.GetAll();
@@ -55,15 +54,16 @@ namespace Site.Services
 
         public async Task<Usuario> GetById(Guid id)
         {
-            if (id.ToString() != null)
-            {
-                var UsuarioQuery = await _unitOfWork.Usuarios.GetById(id);
+            var usuario = await _unitOfWork.Usuarios.FindByConditionAsync(x => x.Id == id);
 
-                if (UsuarioQuery != null)
-                    return UsuarioQuery;
+            return usuario;
+        }
 
-            }
-            return null;
+        public async Task<Usuario> GetByName(string nome)
+        {
+            var usuario = await _unitOfWork.Usuarios.FindByConditionAsync(x=> x.Usernaname == nome);
+
+            return usuario;
         }
 
         public async Task<bool> Update(Usuario entity)
@@ -76,7 +76,7 @@ namespace Site.Services
                 {
                     usuarioQuery.Usernaname = entity.Usernaname;
                     usuarioQuery.Password = entity.Password;
-                   
+
 
                     _unitOfWork.Usuarios.Update(usuarioQuery);
 
@@ -91,16 +91,6 @@ namespace Site.Services
             return false;
         }
 
-        public bool ValidarExistente(Usuario usuario)
-        {
-            if (usuario != null)
-            {
-                var usuarioExist = _unitOfWork.Usuarios.ValidaExistente(usuario);
-                return usuarioExist;
 
-            }
-
-            return false;
-        }
     }
 }

@@ -4,6 +4,6 @@ namespace Site.Services.Interfaces
 {
     public interface IUsuarioService : IBaseService<Usuario>
     {
-        bool ValidarExistente(Usuario Usuario);
+        Task<Usuario> GetByName(string nome);
     }
 }
