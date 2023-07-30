@@ -8,12 +8,12 @@ namespace Site.Services
     public class UsuarioService : IUsuarioService
     {
         public IUnitOfWork _unitOfWork;
-        private readonly ILogger<UsuarioService> _logger;
+        //private readonly ILogger<UsuarioService> _logger;
 
-        public UsuarioService(IUnitOfWork unitOfWork, ILogger<UsuarioService> logger)
+        public UsuarioService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _logger = logger;
+            //_logger = logger;
         }
 
         public async Task<bool> Add(Usuario entity)
@@ -28,7 +28,7 @@ namespace Site.Services
                     var result = _unitOfWork.Save();
 
                     //Pegar o usuario com CLAIMS
-                    _logger.LogInformation($"Usuario Xyz adicinou um novo Registro");
+                    //_logger.LogInformation($"Usuario Xyz adicinou um novo Registro");
 
                     if (result > 0)
                         return true;
@@ -39,7 +39,7 @@ namespace Site.Services
             catch (Exception ex)
             {
                 //Pegar o usuario com CLAIMS
-                _logger.LogInformation($"Usuario Xyz tentou adicinar um novo Registro: " + ex.Message);
+                //_logger.LogInformation($"Usuario Xyz tentou adicinar um novo Registro: " + ex.Message);
                 throw new Exception(ex.Message);
             }
 
@@ -67,7 +67,7 @@ namespace Site.Services
                 }
             }
             //Pegar o usuario com CLAIMS
-            _logger.LogInformation($"Usuario Xyz removeu um Registro");
+            //_logger.LogInformation($"Usuario Xyz removeu um Registro");
 
             return false;
         }
@@ -76,7 +76,7 @@ namespace Site.Services
             var usuarios = await _unitOfWork.Usuarios.GetAll();
 
             //Pegar o usuario com CLAIMS
-            _logger.LogInformation($"Usuario Xyz realizou uma consulta");
+            //_logger.LogInformation($"Usuario Xyz realizou uma consulta");
 
             return usuarios;
         }
@@ -84,7 +84,7 @@ namespace Site.Services
         public async Task<IEnumerable<Usuario>> GetAllActives()
         {
             //Pegar o usuario com CLAIMS
-            _logger.LogInformation($"Usuario Xyz realizou uma consulta");
+            //_logger.LogInformation($"Usuario Xyz realizou uma consulta");
 
             var usuarios = await _unitOfWork.Usuarios.GetAllActives();
 
@@ -96,7 +96,7 @@ namespace Site.Services
             var usuario = await _unitOfWork.Usuarios.FindByConditionAsync(x => x.Id == id);
 
             //Pegar o usuario com CLAIMS
-            _logger.LogInformation($"Usuario Xyz realizou uma consulta");
+            //_logger.LogInformation($"Usuario Xyz realizou uma consulta");
 
             return usuario;
         }
@@ -104,7 +104,7 @@ namespace Site.Services
         public async Task<Usuario> GetByName(string nome)
         {
             //Pegar o usuario com CLAIMS
-            _logger.LogInformation($"Usuario Xyz realizou uma consulta");
+            //_logger.LogInformation($"Usuario Xyz realizou uma consulta");
 
             var usuario = await _unitOfWork.Usuarios.FindByConditionAsync(x => x.Usernaname == nome);
 
@@ -114,7 +114,7 @@ namespace Site.Services
         public Task<bool> LogicalRemove(Usuario entity)
         {
             //Pegar o usuario com CLAIMS
-            _logger.LogInformation($"Usuario removeu lógicamente um registro");
+            //_logger.LogInformation($"Usuario removeu lógicamente um registro");
 
             entity.RemovedAt = DateTime.Now;
             return Update(entity);
@@ -135,7 +135,7 @@ namespace Site.Services
                     var result = _unitOfWork.Save();
 
                     //Pegar o usuario com CLAIMS
-                    _logger.LogInformation($"Usuario Xyz atualizou um registro");
+                    //_logger.LogInformation($"Usuario Xyz atualizou um registro");
 
                     if (result > 0)
                         return true;

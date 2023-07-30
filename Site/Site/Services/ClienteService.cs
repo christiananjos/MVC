@@ -7,12 +7,12 @@ namespace Site.Services
     public class ClienteService : IClienteService
     {
         public IUnitOfWork _unitOfWork;
-        private readonly ILogger<ClienteService> _logger;
+        //private readonly ILogger<ClienteService> _logger;
 
-        public ClienteService(IUnitOfWork unitOfWork, ILogger<ClienteService> logger)
+        public ClienteService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _logger = logger;
+            //_logger = logger;
         }
 
         public async Task<bool> Add(Cliente entity)
@@ -98,7 +98,7 @@ namespace Site.Services
         public async Task<Cliente> GetByName(string nome)
         {
             //Pegar o usuario com CLAIMS
-            _logger.LogInformation($"Usuario Xyz realizou uma consulta em Cliente");
+            //_logger.LogInformation($"Usuario Xyz realizou uma consulta em Cliente");
 
             var cliente = await _unitOfWork.Clientes.FindByConditionAsync(x => x.Nome == nome);
 
@@ -108,7 +108,7 @@ namespace Site.Services
         public Task<bool> LogicalRemove(Cliente entity)
         {
             //Pegar o usuario com CLAIMS
-            _logger.LogInformation($"Usuario removeu lógicamente um registro");
+            //_logger.LogInformation($"Usuario removeu lógicamente um registro");
 
             entity.RemovedAt = DateTime.Now;
 
