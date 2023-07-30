@@ -7,8 +7,13 @@ namespace Site.Services
     public class ClienteService : IClienteService
     {
         public IUnitOfWork _unitOfWork;
+        private readonly ILogger<ClienteService> _logger;
 
-        public ClienteService(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
+        public ClienteService(IUnitOfWork unitOfWork, ILogger<ClienteService> logger)
+        {
+            _unitOfWork = unitOfWork;
+            _logger = logger;
+        }
 
         public async Task<bool> Add(Cliente entity)
         {
@@ -31,9 +36,11 @@ namespace Site.Services
             if (id.ToString() != null)
             {
                 var clienteQuery = await _unitOfWork.Clientes.GetById(id);
-                
+
                 if (clienteQuery != null)
                 {
+                    clienteQuery.RemovedAt = DateTime.Now;
+
                     _unitOfWork.Clientes.Delete(clienteQuery);
 
                     var result = _unitOfWork.Save();
@@ -56,15 +63,9 @@ namespace Site.Services
 
         public async Task<Cliente> GetById(Guid id)
         {
-            if (id.ToString() != null)
-            {
-                var clienteQuery = await _unitOfWork.Clientes.GetById(id);
+            var clienteQuery = await _unitOfWork.Clientes.GetById(id);
+            return clienteQuery;
 
-                if (clienteQuery != null)
-                    return clienteQuery;
-
-            }
-            return null;
         }
 
         public async Task<bool> Update(Cliente entity)
@@ -79,6 +80,7 @@ namespace Site.Services
                     cliente.Email = entity.Email;
                     cliente.AvatarPath = entity.AvatarPath;
                     cliente.Enderecos = entity.Enderecos;
+                    cliente.UpdateAt = DateTime.Now;
 
                     _unitOfWork.Clientes.Update(cliente);
 
@@ -91,6 +93,26 @@ namespace Site.Services
                 }
             }
             return false;
+        }
+
+        public async Task<Cliente> GetByName(string nome)
+        {
+            //Pegar o usuario com CLAIMS
+            _logger.LogInformation($"Usuario Xyz realizou uma consulta em Cliente");
+
+            var cliente = await _unitOfWork.Clientes.FindByConditionAsync(x => x.Nome == nome);
+
+            return cliente;
+        }
+
+        public Task<bool> LogicalRemove(Cliente entity)
+        {
+            //Pegar o usuario com CLAIMS
+            _logger.LogInformation($"Usuario removeu lógicamente um registro");
+
+            entity.RemovedAt = DateTime.Now;
+
+            return Update(entity);
         }
     }
 }

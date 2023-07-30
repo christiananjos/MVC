@@ -1,4 +1,5 @@
-﻿using Site.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Site.Data;
 using Site.Models;
 using Site.Repositories.Interfaces;
 
@@ -10,5 +11,7 @@ namespace Site.Repositories
         {
 
         }
+
+        public async Task<IEnumerable<Usuario>> GetAllActives() => await _dbContext.Set<Usuario>().Where(x => x.RemovedAt == null).ToListAsync();
     }
 }

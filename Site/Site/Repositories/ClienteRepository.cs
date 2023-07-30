@@ -10,5 +10,7 @@ namespace Site.Repositories
         {
 
         }
+
+        //public async Task<IEnumerable<Cliente>> GetAllActives() => await _dbContext.Set<Cliente>().Where(x => x. == true).ToListAsync();
     }
 }

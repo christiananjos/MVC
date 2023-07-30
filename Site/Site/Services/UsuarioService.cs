@@ -1,4 +1,5 @@
-﻿using Site.Interfaces;
+﻿using Site.Controllers;
+using Site.Interfaces;
 using Site.Models;
 using Site.Services.Interfaces;
 
@@ -7,21 +8,41 @@ namespace Site.Services
     public class UsuarioService : IUsuarioService
     {
         public IUnitOfWork _unitOfWork;
-        public UsuarioService(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
+        private readonly ILogger<UsuarioService> _logger;
+
+        public UsuarioService(IUnitOfWork unitOfWork, ILogger<UsuarioService> logger)
+        {
+            _unitOfWork = unitOfWork;
+            _logger = logger;
+        }
 
         public async Task<bool> Add(Usuario entity)
         {
-            if (entity != null)
+
+            try
             {
-                await _unitOfWork.Usuarios.Add(entity);
+                if (entity != null)
+                {
+                    await _unitOfWork.Usuarios.Add(entity);
 
-                var result = _unitOfWork.Save();
+                    var result = _unitOfWork.Save();
 
-                if (result > 0)
-                    return true;
-                else
-                    return false;
+                    //Pegar o usuario com CLAIMS
+                    _logger.LogInformation($"Usuario Xyz adicinou um novo Registro");
+
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
             }
+            catch (Exception ex)
+            {
+                //Pegar o usuario com CLAIMS
+                _logger.LogInformation($"Usuario Xyz tentou adicinar um novo Registro: " + ex.Message);
+                throw new Exception(ex.Message);
+            }
+
             return false;
         }
 
@@ -29,11 +50,13 @@ namespace Site.Services
         {
             if (id.ToString() != null)
             {
-                var UsuarioQuery = await _unitOfWork.Usuarios.GetById(id);
+                var usuarioQuery = await _unitOfWork.Usuarios.GetById(id);
 
-                if (UsuarioQuery != null)
+                if (usuarioQuery != null)
                 {
-                    _unitOfWork.Usuarios.Delete(UsuarioQuery);
+                    usuarioQuery.RemovedAt = DateTime.Now;
+
+                    _unitOfWork.Usuarios.Delete(usuarioQuery);
 
                     var result = _unitOfWork.Save();
 
@@ -43,11 +66,27 @@ namespace Site.Services
                         return false;
                 }
             }
+            //Pegar o usuario com CLAIMS
+            _logger.LogInformation($"Usuario Xyz removeu um Registro");
+
             return false;
         }
         public async Task<IEnumerable<Usuario>> GetAll()
         {
             var usuarios = await _unitOfWork.Usuarios.GetAll();
+
+            //Pegar o usuario com CLAIMS
+            _logger.LogInformation($"Usuario Xyz realizou uma consulta");
+
+            return usuarios;
+        }
+
+        public async Task<IEnumerable<Usuario>> GetAllActives()
+        {
+            //Pegar o usuario com CLAIMS
+            _logger.LogInformation($"Usuario Xyz realizou uma consulta");
+
+            var usuarios = await _unitOfWork.Usuarios.GetAllActives();
 
             return usuarios;
         }
@@ -56,14 +95,29 @@ namespace Site.Services
         {
             var usuario = await _unitOfWork.Usuarios.FindByConditionAsync(x => x.Id == id);
 
+            //Pegar o usuario com CLAIMS
+            _logger.LogInformation($"Usuario Xyz realizou uma consulta");
+
             return usuario;
         }
 
         public async Task<Usuario> GetByName(string nome)
         {
-            var usuario = await _unitOfWork.Usuarios.FindByConditionAsync(x=> x.Usernaname == nome);
+            //Pegar o usuario com CLAIMS
+            _logger.LogInformation($"Usuario Xyz realizou uma consulta");
+
+            var usuario = await _unitOfWork.Usuarios.FindByConditionAsync(x => x.Usernaname == nome);
 
             return usuario;
+        }
+
+        public Task<bool> LogicalRemove(Usuario entity)
+        {
+            //Pegar o usuario com CLAIMS
+            _logger.LogInformation($"Usuario removeu lógicamente um registro");
+
+            entity.RemovedAt = DateTime.Now;
+            return Update(entity);
         }
 
         public async Task<bool> Update(Usuario entity)
@@ -74,13 +128,14 @@ namespace Site.Services
 
                 if (usuarioQuery != null)
                 {
-                    usuarioQuery.Usernaname = entity.Usernaname;
-                    usuarioQuery.Password = entity.Password;
-
+                    usuarioQuery.UpdateAt = DateTime.Now;
 
                     _unitOfWork.Usuarios.Update(usuarioQuery);
 
                     var result = _unitOfWork.Save();
+
+                    //Pegar o usuario com CLAIMS
+                    _logger.LogInformation($"Usuario Xyz atualizou um registro");
 
                     if (result > 0)
                         return true;

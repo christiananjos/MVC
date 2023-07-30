@@ -8,19 +8,17 @@ namespace Site.API.Controllers
     [ApiController]
     public class UsuarioController : ControllerBase
     {
-        private readonly ILogger<UsuarioController> _logger;
         private readonly IUsuarioService _usuarioService;
 
-        public UsuarioController(ILogger<UsuarioController> logger, IUsuarioService usuarioService)
+        public UsuarioController(IUsuarioService usuarioService)
         {
-            _logger = logger;
             _usuarioService = usuarioService;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Usuario>>> GetAll()
         {
-            var usuarios = await _usuarioService.GetAll();
+            var usuarios = await _usuarioService.GetAllActives();
             return Ok(usuarios);
         }
 
@@ -52,6 +50,24 @@ namespace Site.API.Controllers
             var usuarioUpdated = await _usuarioService.Update(usuario);
 
             return Ok(usuarioUpdated);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Usuario>> Delete(Guid id)
+        {
+
+            var user = await _usuarioService.GetById(id);
+
+            if (user == null)
+                return NotFound("Usuario não existe");
+
+            if (user != null)
+            {
+                var userDeleted = await _usuarioService.LogicalRemove(user);
+                return Ok(userDeleted);
+            }
+
+            return Ok();
         }
     }
 }

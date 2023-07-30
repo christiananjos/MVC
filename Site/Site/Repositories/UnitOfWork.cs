@@ -10,13 +10,15 @@ namespace Site.Repositories
         public IUsuarioRepository Usuarios { get; }
         public IClienteRepository Clientes { get; }
         public IEnderecoRepository Enderecos { get; }
+        public ILogRepository Logs { get; }
 
-        public UnitOfWork(Context dbContext, IClienteRepository clienteRepository, IUsuarioRepository usuarioRepository, IEnderecoRepository enderecoRepository)
+        public UnitOfWork(Context dbContext, IClienteRepository clienteRepository, IUsuarioRepository usuarioRepository, IEnderecoRepository enderecoRepository, ILogRepository logs)
         {
             _dbContext = dbContext;
             Clientes = clienteRepository;
             Usuarios = usuarioRepository;
             Enderecos = enderecoRepository;
+            Logs = logs;
         }
 
         public int Save()

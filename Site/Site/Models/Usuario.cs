@@ -2,16 +2,13 @@
 
 namespace Site.Models
 {
-    public class Usuario
+    public class Usuario : Base
     {
-        public Usuario(string usernaname, string password, bool ativo)
+        public Usuario(string usernaname, string password)
         {
             Usernaname = usernaname;
             Password = password;
-            Ativo = ativo;
         }
-
-        public Guid Id { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório.")]
         [Display(Name = "Usernaname")]
@@ -21,9 +18,5 @@ namespace Site.Models
         [Required(ErrorMessage = "Campo obrigatório.")]
         [Display(Name = "Password")]
         public string Password { get; set; }
-
-        [Required(ErrorMessage = "Campo obrigatório.")]
-        [Display(Name = "Ativo")]
-        public bool Ativo { get; set; }
     }
 }

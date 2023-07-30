@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Site.Models
 {
-    public class Endereco
+    public class Endereco : Base
     {
         //public Endereco(Guid clienteId, string logradouro, int numero, string complemento, int cep, char uf, string estado)
         //{
@@ -14,14 +15,6 @@ namespace Site.Models
         //    UF = uf;
         //    Estado = estado;
         //}
-
-        public Endereco()
-        {
-                
-        }
-
-        public Guid Id { get; set; }
-        public Cliente Cliente { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório.")]
         [Display(Name = "ClienteId")]

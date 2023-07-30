@@ -2,15 +2,15 @@
 
 namespace Site.Models
 {
-    public class Cliente
+    public class Cliente : Base
     {
-        public Cliente(string nome, string email)
+        public Cliente(string nome, string email, string cpfCnpj, string avatarPath)
         {
             Nome = nome;
             Email = email;
+            CpfCnpj = cpfCnpj;
+            AvatarPath = avatarPath;
         }
-
-        public Guid Id { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório.")]
         [Display(Name = "Nome")]
@@ -20,6 +20,11 @@ namespace Site.Models
         [Display(Name = "Nome")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
+
+        [Required(ErrorMessage = "Campo obrigatório.")]
+        [Display(Name = "CpfCnpj")]
+        [DataType(DataType.EmailAddress)]
+        public string CpfCnpj { get; set; }
 
         [Display(Name = "Avatar")]
         public string AvatarPath { get; set; }
