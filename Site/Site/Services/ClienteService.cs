@@ -19,6 +19,8 @@ namespace Site.Services
         {
             if (entity != null)
             {
+                entity.CreatedAt = DateTime.Now;
+
                 await _unitOfWork.Clientes.Add(entity);
 
                 var result = _unitOfWork.Save();

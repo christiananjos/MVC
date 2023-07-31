@@ -23,12 +23,11 @@ namespace Site.Services
             {
                 if (entity != null)
                 {
+                    entity.CreatedAt = DateTime.Now;
+
                     await _unitOfWork.Usuarios.Add(entity);
 
                     var result = _unitOfWork.Save();
-
-                    //Pegar o usuario com CLAIMS
-                    //_logger.LogInformation($"Usuario Xyz adicinou um novo Registro");
 
                     if (result > 0)
                         return true;

@@ -14,6 +14,8 @@ namespace Site.Services
         {
             if (entity != null)
             {
+                entity.CreatedAt = DateTime.Now;
+
                 await _unitOfWork.Enderecos.Add(entity);
 
                 var result = _unitOfWork.Save();
@@ -34,6 +36,7 @@ namespace Site.Services
                 
                 if (enderecoQuery != null)
                 {
+                    enderecoQuery.RemovedAt = DateTime.Now;
                     _unitOfWork.Enderecos.Delete(enderecoQuery);
 
                     var result = _unitOfWork.Save();
@@ -82,6 +85,7 @@ namespace Site.Services
                     enderecoQuery.CEP = entity.CEP;
                     enderecoQuery.UF = entity.UF;
                     enderecoQuery.Estado = entity.Estado;
+                    enderecoQuery.UpdateAt = DateTime.Now;
 
                     _unitOfWork.Enderecos.Update(enderecoQuery);
 
