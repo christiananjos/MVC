@@ -59,7 +59,7 @@ namespace Site.API.Controllers
             var user = await _usuarioService.GetById(id);
 
             if (user == null)
-                return NotFound("Usuario não existe");
+                return NotFound("Usuario não encontrado");
 
             if (user != null)
             {
