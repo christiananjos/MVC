@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
 using Site.Data;
 using Site.Interfaces;
@@ -16,15 +17,20 @@ builder.Services.AddEntityFrameworkSqlServer().AddDbContext<Context>(options =>
 
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IEnderecoRepository, EnderecoRepository>();
 builder.Services.AddScoped<ILogRepository, LogRepository>();
+builder.Services.AddScoped<IHistoricoImportacaoCNABRepository, HistoricoImportacaoCNABRepository>();
+builder.Services.AddScoped<ITransacaoRepository, TransacaoRepository>();
 
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IEnderecoService, EnderecoService>();
 builder.Services.AddScoped<ILogService, LogService>();
+builder.Services.AddScoped<IHistoricoImportacaoCNABService, HistoricoImportacaoCNABService>();
+builder.Services.AddScoped<ITransacaoService, TransacaoService>();
 
 builder.Services.AddSwaggerGen(options =>
 {
@@ -58,6 +64,13 @@ if (!app.Environment.IsDevelopment())
         options.RoutePrefix = string.Empty;
     });
 }
+
+app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions()
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
+    RequestPath = new PathString("/Resources")
+});
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
