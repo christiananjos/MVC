@@ -11,14 +11,18 @@ namespace Site.Repositories
         public IClienteRepository Clientes { get; }
         public IEnderecoRepository Enderecos { get; }
         public ILogRepository Logs { get; }
+        public IHistoricoImportacaoCNABRepository HistoricoImportacoes { get; set; }
+        public ITransacaoRepository Transacoes { get; set; }
 
-        public UnitOfWork(Context dbContext, IClienteRepository clienteRepository, IUsuarioRepository usuarioRepository, IEnderecoRepository enderecoRepository, ILogRepository logs)
+        public UnitOfWork(Context dbContext, IClienteRepository clienteRepository, IUsuarioRepository usuarioRepository, IEnderecoRepository enderecoRepository, ILogRepository logs, IHistoricoImportacaoCNABRepository historicoImportacoes, ITransacaoRepository transacoes)
         {
             _dbContext = dbContext;
             Clientes = clienteRepository;
             Usuarios = usuarioRepository;
             Enderecos = enderecoRepository;
             Logs = logs;
+            HistoricoImportacoes = historicoImportacoes;
+            Transacoes = transacoes;
         }
 
         public int Save()
