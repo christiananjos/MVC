@@ -11,6 +11,8 @@ namespace Site.Data
         public DbSet<Endereco> Enderecos { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Log> Logs { get; set; }
+        public DbSet<Transacao> Transacoes { get; set; }
+        public DbSet<HistoricoImportacaoCNAB> HistoricoImportacaoCNABs { get; set; }
 
     }
 }
