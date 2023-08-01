@@ -21,6 +21,7 @@ builder.Services.AddScoped<IEnderecoRepository, EnderecoRepository>();
 builder.Services.AddScoped<ILogRepository, LogRepository>();
 builder.Services.AddScoped<IHistoricoImportacaoCNABRepository, HistoricoImportacaoCNABRepository>();
 builder.Services.AddScoped<ITransacaoRepository, TransacaoRepository>();
+builder.Services.AddScoped<IUsuarioVerificacaoRepository, UsuarioVerificacaoRepository>();
 
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
@@ -28,6 +29,7 @@ builder.Services.AddScoped<IEnderecoService, EnderecoService>();
 builder.Services.AddScoped<ILogService, LogService>();
 builder.Services.AddScoped<IHistoricoImportacaoCNABService, HistoricoImportacaoCNABService>();
 builder.Services.AddScoped<ITransacaoService, TransacaoService>();
+builder.Services.AddScoped<IUsuarioVerificacaoService, UsuarioVerificacaoService>();
 
 
 builder.Services.AddControllers();

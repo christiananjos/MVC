@@ -13,6 +13,7 @@ namespace Site.Data
         public DbSet<Log> Logs { get; set; }
         public DbSet<Transacao> Transacoes { get; set; }
         public DbSet<HistoricoImportacaoCNAB> HistoricoImportacaoCNABs { get; set; }
+        public DbSet<UsuarioVerificacao> UsuarioVerificacoes { get; set; }
 
     }
 }

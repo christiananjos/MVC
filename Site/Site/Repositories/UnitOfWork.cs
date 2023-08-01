@@ -13,8 +13,9 @@ namespace Site.Repositories
         public ILogRepository Logs { get; }
         public IHistoricoImportacaoCNABRepository HistoricoImportacoes { get; set; }
         public ITransacaoRepository Transacoes { get; set; }
+        public IUsuarioVerificacaoRepository usuarioVerificacoes { get; set; }
 
-        public UnitOfWork(Context dbContext, IClienteRepository clienteRepository, IUsuarioRepository usuarioRepository, IEnderecoRepository enderecoRepository, ILogRepository logs, IHistoricoImportacaoCNABRepository historicoImportacoes, ITransacaoRepository transacoes)
+        public UnitOfWork(Context dbContext, IClienteRepository clienteRepository, IUsuarioRepository usuarioRepository, IEnderecoRepository enderecoRepository, ILogRepository logs, IHistoricoImportacaoCNABRepository historicoImportacoes, ITransacaoRepository transacoes, IUsuarioVerificacaoRepository usuarioVerificacoes)
         {
             _dbContext = dbContext;
             Clientes = clienteRepository;
@@ -23,6 +24,7 @@ namespace Site.Repositories
             Logs = logs;
             HistoricoImportacoes = historicoImportacoes;
             Transacoes = transacoes;
+            this.usuarioVerificacoes = usuarioVerificacoes;
         }
 
         public int Save()

@@ -18,5 +18,7 @@ namespace Site.Models
         [Required(ErrorMessage = "Campo obrigatório.")]
         [Display(Name = "Password")]
         public string Password { get; set; }
+
+        public bool Verificado { get; set; }
     }
 }
