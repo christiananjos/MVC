@@ -30,6 +30,8 @@ builder.Services.AddScoped<ILogService, LogService>();
 builder.Services.AddScoped<IHistoricoImportacaoCNABService, HistoricoImportacaoCNABService>();
 builder.Services.AddScoped<ITransacaoService, TransacaoService>();
 builder.Services.AddScoped<IUsuarioVerificacaoService, UsuarioVerificacaoService>();
+builder.Services.AddScoped<ICNAB_IOService, CNAB_IOService>();
+builder.Services.AddScoped<IProcessamentoArquivoService, ProcessamentoArquivoService>();
 
 
 builder.Services.AddControllers();

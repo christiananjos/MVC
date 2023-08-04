@@ -2,8 +2,9 @@
 {
     public interface ICNAB_IOService
     {
-        Task UploadEntrada(string pathSaida, string nomeArquivo);
-        Task MoveArquivoSaida(string pathSaida, string nomeArquivo);
-        Task MoveArquivoErro(string pathSaida, string nomeArquivo);
+        void CriaDiretoriosPrincipais();
+        void UploadEntrada(IFormFile file, string nomeArquivo);
+        void MoveArquivoSaida(IFormFile file, string nomeArquivo);
+        void MoveArquivoErro(IFormFile file, string nomeArquivo);
     }
 }
