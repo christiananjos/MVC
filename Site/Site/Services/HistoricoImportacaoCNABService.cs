@@ -13,47 +13,96 @@ namespace Site.Services
             _unitOfWork = unitOfWork;
         }
 
-        public Task<bool> Add(HistoricoImportacaoCNAB entity)
+        public async Task<bool> Add(HistoricoImportacaoCNAB entity)
+        {
+            if (entity != null)
+            {
+                entity.CreatedAt = DateTime.Now;
+
+                await _unitOfWork.HistoricoImportacoes.Add(entity);
+
+                var result = _unitOfWork.Save();
+
+                if (result > 0)
+                    return true;
+                else
+                    return false;
+            }
+            return false;
+        }
+
+        public async Task<bool> Delete(Guid id)
+        {
+            if (id.ToString() != null)
+            {
+                var historico = await _unitOfWork.HistoricoImportacoes.GetById(id);
+
+                if (historico != null)
+                {
+                    historico.RemovedAt = DateTime.Now;
+
+                    _unitOfWork.HistoricoImportacoes.Delete(historico);
+
+                    var result = _unitOfWork.Save();
+
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+            }
+            return false;
+        }
+
+        public async Task<IEnumerable<HistoricoImportacaoCNAB>> GetAll()
+        {
+            var historicos = await _unitOfWork.HistoricoImportacoes.GetAll();
+
+            return historicos;
+        }
+
+        public async Task<HistoricoImportacaoCNAB> GetById(Guid id)
+        {
+            var historico = await _unitOfWork.HistoricoImportacoes.GetById(id);
+            return historico;
+        }
+
+        public async Task<bool> Update(HistoricoImportacaoCNAB entity)
+        {
+            if (entity != null)
+            {
+                var historico = await _unitOfWork.HistoricoImportacoes.GetById(entity.Id);
+
+                if (historico != null)
+                {
+                    historico.NomeArquivo = entity.NomeArquivo;
+                    historico.Usuario = entity.Usuario;
+                    historico.UpdateAt = DateTime.Now;
+
+                    _unitOfWork.HistoricoImportacoes.Update(historico);
+
+                    var result = _unitOfWork.Save();
+
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+            }
+            return false;
+        }
+
+        public async Task<Dictionary<bool, string>> ProcessaArquivoPorId(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> Delete(Guid id)
+        public async Task<Dictionary<bool, string>> ProcessaArquivoPorNome(string nomeArquivo)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<HistoricoImportacaoCNAB>> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<HistoricoImportacaoCNAB> GetById(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> Update(HistoricoImportacaoCNAB entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Dictionary<bool, string>> ImportaArquivo(HistoricoImportacaoCNAB entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Dictionary<bool, string>> ProcessaArquivoById(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Dictionary<bool, string>> ProcessaArquivoByName(string nomeArquivo)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Dictionary<bool, string>> ProcessaTodosArquivos()
+        public async Task<Dictionary<bool, string>> ProcessaTodosArquivos()
         {
             throw new NotImplementedException();
         }

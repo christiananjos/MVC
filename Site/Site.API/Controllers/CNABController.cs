@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Site.Enums;
 using Site.Models;
 using Site.Services.Interfaces;
 
@@ -8,12 +9,12 @@ namespace Site.API.Controllers
     [ApiController]
     public class CNABController : ControllerBase
     {
-        private readonly IHistoricoImportacaoCNABService _clienteService;
+        private readonly IHistoricoImportacaoCNABService _historicoImportacaoCNABService;
         private readonly ICNAB_IOService _IOService;
 
-        public CNABController(IHistoricoImportacaoCNABService clienteService, ICNAB_IOService iOService)
+        public CNABController(IHistoricoImportacaoCNABService historicoImportacaoCNABService, ICNAB_IOService iOService)
         {
-            _clienteService = clienteService;
+            _historicoImportacaoCNABService = historicoImportacaoCNABService;
             _IOService = iOService;
         }
 
@@ -28,6 +29,17 @@ namespace Site.API.Controllers
 
             _IOService.CriaDiretoriosPrincipais();
             _IOService.UploadEntrada(file, file.FileName);
+
+            var historico = new HistoricoImportacaoCNAB()
+            {
+                NomeArquivo = file.FileName,
+                Usuario = "Usuario Teste",
+                Status = EnumStatusCNAB.Importado
+
+
+            };
+            await _historicoImportacaoCNABService.Add(historico);
+
             //_IOService.MoveArquivoErro(file, file.FileName);
             _IOService.MoveArquivoSaida(file, file.FileName);
 
@@ -35,31 +47,21 @@ namespace Site.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Transacao>> GetByCNABId(Guid id)
+        public async Task<ActionResult<HistoricoImportacaoCNAB>> GetByCNABId(Guid id)
         {
-            throw new NotImplementedException();
+            var historico = await _historicoImportacaoCNABService.GetById(id);
+
+            return Ok(historico);
         }
 
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Transacao>>> GetAllCNABEntrada()
+        public async Task<ActionResult<IEnumerable<string>>> GetAllCNABEntrada()
         {
-            throw new NotImplementedException();
+            var historicos = await _historicoImportacaoCNABService.GetAll();
+
+            return Ok(historicos);
         }
-
-
-
-        [HttpGet("{nomeLoja}")]
-        public async Task<ActionResult<IEnumerable<Transacao>>> GetByLoja(string nomeLoja)
-        {
-            throw new NotImplementedException();
-        }
-
-
-
-
-
-
     }
 }

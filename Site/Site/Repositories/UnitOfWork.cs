@@ -11,20 +11,20 @@ namespace Site.Repositories
         public IClienteRepository Clientes { get; }
         public IEnderecoRepository Enderecos { get; }
         public ILogRepository Logs { get; }
-        public IHistoricoImportacaoCNABRepository HistoricoImportacoes { get; set; }
-        public ITransacaoRepository Transacoes { get; set; }
-        public IUsuarioVerificacaoRepository usuarioVerificacoes { get; set; }
+        public IHistoricoImportacaoCNABRepository HistoricoImportacoes { get; }
+        public ITransacaoRepository Transacoes { get; }
+        public IUsuarioVerificacaoRepository usuarioVerificacoes { get; }
 
-        public UnitOfWork(Context dbContext, IClienteRepository clienteRepository, IUsuarioRepository usuarioRepository, IEnderecoRepository enderecoRepository, ILogRepository logs, IHistoricoImportacaoCNABRepository historicoImportacoes, ITransacaoRepository transacoes, IUsuarioVerificacaoRepository usuarioVerificacoes)
+        public UnitOfWork(Context dbContext, IClienteRepository clienteRepository, IUsuarioRepository usuarioRepository, IEnderecoRepository enderecoRepository, ILogRepository logsRepository, IHistoricoImportacaoCNABRepository historicoImportacoesRepository, ITransacaoRepository transacoesRepository, IUsuarioVerificacaoRepository usuarioVerificacoesRepository)
         {
             _dbContext = dbContext;
             Clientes = clienteRepository;
             Usuarios = usuarioRepository;
             Enderecos = enderecoRepository;
-            Logs = logs;
-            HistoricoImportacoes = historicoImportacoes;
-            Transacoes = transacoes;
-            this.usuarioVerificacoes = usuarioVerificacoes;
+            Logs = logsRepository;
+            HistoricoImportacoes = historicoImportacoesRepository;
+            Transacoes = transacoesRepository;
+            usuarioVerificacoes = usuarioVerificacoesRepository;
         }
 
         public int Save()

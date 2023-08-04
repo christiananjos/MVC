@@ -1,4 +1,6 @@
-﻿namespace Site.Models
+﻿using Site.Enums;
+
+namespace Site.Models
 {
     public class HistoricoImportacaoCNAB : Base
     {
@@ -8,7 +10,8 @@
         //    Usuario = usuario;
         //}
 
-        public string NomeArquivoCNABImportado { get; set; }
+        public string NomeArquivo { get; set; }
         public string Usuario { get; set; }
+        public EnumStatusCNAB Status { get; set; }
     }
 }
