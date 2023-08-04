@@ -32,8 +32,9 @@ namespace Site.Services
         public async Task<Dictionary<bool, string>> ValidaArquivo(IEnumerable<string> linhasCNAB)
         {
             int linhaValidada = 1;
+            string msgErro = "Erro Linha " + linhaValidada;
             var validacao = new Dictionary<bool, string>();
-            string msgErro = "Erro Linha ";
+
 
             foreach (var linha in linhasCNAB)
             {
@@ -41,7 +42,7 @@ namespace Site.Services
                 var tamanho = linha.Length;
 
                 if (linha.Length == 80)
-                    validacao.Add(false, string.Concat(msgErro, linhaValidada, " Tamanho de caracters invalido no arquivo"));
+                    validacao.Add(false, string.Concat(msgErro, " Tamanho de caracters invalido no arquivo"));
 
                 //0 até 34 tem que ser somente numeros
 
