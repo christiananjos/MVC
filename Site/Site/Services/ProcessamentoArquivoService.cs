@@ -1,4 +1,5 @@
-﻿using Site.Services.Interfaces;
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Site.Services.Interfaces;
 
 namespace Site.Services
 {
@@ -19,9 +20,9 @@ namespace Site.Services
 
             //Validar estrutura
             var retornoValidacao = await ValidaArquivo(conteudo);
-            
-            
-            
+
+
+
             //Salvar as transações no banco
             //Atualizar o historico de CNAB com o mesmo ID : Se sucesso > Enum Processado, Se Erro > Enum Erro
 
@@ -30,10 +31,25 @@ namespace Site.Services
 
         public async Task<Dictionary<bool, string>> ValidaArquivo(IEnumerable<string> linhasCNAB)
         {
-            foreach (var item in linhasCNAB)
-            {
+            int linhaValidada = 1;
+            var validacao = new Dictionary<bool, string>();
+            string msgErro = "Erro Linha ";
 
+            foreach (var linha in linhasCNAB)
+            {
+                //Tamanho da linha = 80
+                var tamanho = linha.Length;
+
+                if (linha.Length == 80)
+                    validacao.Add(false, string.Concat(msgErro, linhaValidada, " Tamanho de caracters invalido no arquivo"));
+
+                //0 até 34 tem que ser somente numeros
+
+                //1º Posicao tem que ser de 1 a 9
+                //1 a 8 Data Valida
+                //19 a 29 > CPF valido
             }
+
 
             throw new NotImplementedException();
         }
