@@ -6,5 +6,6 @@
         void UploadEntrada(IFormFile file, string nomeArquivo);
         void MoveArquivoSaida(IFormFile file, string nomeArquivo);
         void MoveArquivoErro(IFormFile file, string nomeArquivo);
+        Task<IEnumerable<string>> LeCNABEntradaPorNomeArquivo(string nomeArquivo);
     }
 }
