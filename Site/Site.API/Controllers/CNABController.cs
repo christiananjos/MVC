@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Site.Models;
-using System.IO;
-using System.Text;
-using System.Xml.Linq;
+using Site.Services.Interfaces;
 
 namespace Site.API.Controllers
 {
@@ -10,6 +8,8 @@ namespace Site.API.Controllers
     [ApiController]
     public class CNABController : ControllerBase
     {
+        private readonly IHistoricoImportacaoCNABService _clienteService;
+
         [HttpPost]
         public async Task<ActionResult> UploadCNAB(IFormFile file)
         {
@@ -39,24 +39,26 @@ namespace Site.API.Controllers
                 await file.CopyToAsync(stream);
             }
 
+            //_clienteService.Add
+
             return Ok("Arquivo salvo com sucesso. Use a lista de arquivos para Processar.");
         }
 
-
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Transacao>> GetByCNABId(Guid id)
+        {
+            throw new NotImplementedException();
+        }
 
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Transacao>>> GetAllTransacoes()
+        public async Task<ActionResult<IEnumerable<Transacao>>> GetAllCNABEntrada()
         {
             throw new NotImplementedException();
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Transacao>> GetById(Guid id)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         [HttpGet("{nomeLoja}")]
         public async Task<ActionResult<IEnumerable<Transacao>>> GetByLoja(string nomeLoja)

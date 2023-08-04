@@ -8,7 +8,7 @@
         //    Usuario = usuario;
         //}
 
-        public string CNABImportado { get; set; }
+        public string NomeArquivoCNABImportado { get; set; }
         public string Usuario { get; set; }
     }
 }

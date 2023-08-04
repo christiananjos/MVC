@@ -37,5 +37,25 @@ namespace Site.Services
         {
             throw new NotImplementedException();
         }
+
+        public Task<Dictionary<bool, string>> ImportaArquivo(HistoricoImportacaoCNAB entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Dictionary<bool, string>> ProcessaArquivoById(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Dictionary<bool, string>> ProcessaArquivoByName(string nomeArquivo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Dictionary<bool, string>> ProcessaTodosArquivos()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
