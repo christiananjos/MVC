@@ -1,4 +1,5 @@
 ﻿using Site.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace Site.Models
 {
@@ -10,8 +11,13 @@ namespace Site.Models
         //    Usuario = usuario;
         //}
 
+        [Display(Name = "NomeArquivo")]
         public string NomeArquivo { get; set; }
+
+        [Display(Name = "Usuario")]
         public string Usuario { get; set; }
+
+        [Display(Name = "Status")]
         public EnumStatusCNAB Status { get; set; }
     }
 }

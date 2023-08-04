@@ -1,10 +1,8 @@
-﻿using Site.Models;
-
-namespace Site.Services.Interfaces
+﻿namespace Site.Services.Interfaces
 {
     public interface IProcessamentoArquivoService
     {
-        Task<IEnumerable<Transacao>> ProcessaArquivo(IFormFile arquivo);
-        Task<Dictionary<bool, string>> ValidaArquivo(string textCNAB);
+        Task<Dictionary<bool, string>> ProcessaArquivoPorCNABId(string nomeArquivo);
+        Task<Dictionary<bool, string>> ValidaArquivo(IEnumerable<string> linhasCNAB);
     }
 }

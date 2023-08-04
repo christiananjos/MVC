@@ -17,13 +17,12 @@ namespace Site.Models
         public string Nome { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório.")]
-        [Display(Name = "Nome")]
+        [Display(Name = "Email")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório.")]
         [Display(Name = "CpfCnpj")]
-        [DataType(DataType.EmailAddress)]
         public string CpfCnpj { get; set; }
 
         [Display(Name = "Avatar")]

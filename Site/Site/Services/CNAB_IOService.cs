@@ -62,6 +62,14 @@ namespace Site.Services
 
         }
 
+        public async Task<IEnumerable<string>> LeCNABEntradaPorNomeArquivo(string nomeArquivo)
+        {
+            string[] txtConteudo = await File.ReadAllLinesAsync(string.Concat(pathEntrada, nomeArquivo));
+            
+            List<string> listItems = txtConteudo.ToList();
 
+
+            return listItems;
+        }
     }
 }

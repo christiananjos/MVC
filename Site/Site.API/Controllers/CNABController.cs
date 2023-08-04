@@ -11,14 +11,16 @@ namespace Site.API.Controllers
     {
         private readonly IHistoricoImportacaoCNABService _historicoImportacaoCNABService;
         private readonly ICNAB_IOService _IOService;
+        private readonly IProcessamentoArquivoService _processamentoArquivo;
 
-        public CNABController(IHistoricoImportacaoCNABService historicoImportacaoCNABService, ICNAB_IOService iOService)
+        public CNABController(IHistoricoImportacaoCNABService historicoImportacaoCNABService, ICNAB_IOService iOService, IProcessamentoArquivoService processamentoArquivo)
         {
             _historicoImportacaoCNABService = historicoImportacaoCNABService;
             _IOService = iOService;
+            _processamentoArquivo = processamentoArquivo;
         }
 
-        [HttpPost]
+        [HttpPost("UploadCNAB")]
         public async Task<ActionResult> UploadCNAB(IFormFile file)
         {
             if (file.Length <= 0)
@@ -34,29 +36,34 @@ namespace Site.API.Controllers
             {
                 NomeArquivo = file.FileName,
                 Usuario = "Usuario Teste",
-                Status = EnumStatusCNAB.Importado
-
-
+                Status = EnumStatusCNAB.AguardandoProcessamento
             };
+
             await _historicoImportacaoCNABService.Add(historico);
 
-            //_IOService.MoveArquivoErro(file, file.FileName);
-            _IOService.MoveArquivoSaida(file, file.FileName);
-
-            return Ok("Arquivo salvo com sucesso. Use a lista de arquivos para Processar.");
+            return Ok("Arquivo importado com sucesso.");
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<HistoricoImportacaoCNAB>> GetByCNABId(Guid id)
+        [HttpGet("ProcessaCNABPorId/{id}")]
+        public async Task<ActionResult> ProcessaCNABPorId(Guid id)
         {
             var historico = await _historicoImportacaoCNABService.GetById(id);
 
-            return Ok(historico);
+            if (historico == null)
+                return NotFound("CNAB não encontrado");
+
+            var retornoProcessamento = await _processamentoArquivo.ProcessaArquivoPorCNABId(historico.NomeArquivo);
+
+            if (retornoProcessamento.ContainsKey(false))
+            {
+                return Ok(retornoProcessamento.Values);
+            }
+            return Ok("Processamento realizado com sucesso.");
         }
 
 
 
-        [HttpGet]
+        [HttpGet("GetAllCNABEntrada")]
         public async Task<ActionResult<IEnumerable<string>>> GetAllCNABEntrada()
         {
             var historicos = await _historicoImportacaoCNABService.GetAll();

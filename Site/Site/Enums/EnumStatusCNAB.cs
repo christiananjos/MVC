@@ -2,7 +2,7 @@
 {
     public enum EnumStatusCNAB
     {
-        Importado = 1,
+        AguardandoProcessamento = 1,
         Processado = 2,
         Erro = 3,
     }
