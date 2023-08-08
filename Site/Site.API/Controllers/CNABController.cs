@@ -52,12 +52,19 @@ namespace Site.API.Controllers
             if (historico == null)
                 return NotFound("CNAB não encontrado");
 
-            var retornoProcessamento = await _processamentoArquivo.ProcessaArquivoPorCNABId(historico.NomeArquivo);
+           
+            var conteudo = await _IOService.LeCNABEntradaPorNomeArquivo(historico.NomeArquivo);
 
-            if (retornoProcessamento.ContainsKey(false))
+            var isValid = await _processamentoArquivo.ValidaArquivo(conteudo);
+
+           // var retornoProcessamento = await _processamentoArquivo.ProcessaArquivoPorCNABId(historico.NomeArquivo);
+
+            if (isValid.ContainsKey(false))
             {
-                return Ok(retornoProcessamento.Values);
+                return Ok(isValid.Values);
             }
+
+
             return Ok("Processamento realizado com sucesso.");
         }
 
