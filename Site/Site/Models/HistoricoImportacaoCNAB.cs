@@ -19,5 +19,8 @@ namespace Site.Models
 
         [Display(Name = "Status")]
         public EnumStatusCNAB Status { get; set; }
+        
+        [Display(Name = "Status")]
+        public string Mensagem { get; set; }
     }
 }

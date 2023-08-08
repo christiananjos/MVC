@@ -56,17 +56,38 @@ namespace Site.API.Controllers
             var linhasCnab = await _IOService.LeCNABEntradaPorNomeArquivo(historico.NomeArquivo);
 
             var validacao = await _processamentoArquivo.ValidaArquivo(linhasCnab);
+            
             if (!string.IsNullOrEmpty(validacao))
+            {
+                historico.Status = EnumStatusCNAB.Erro;
+                historico.Mensagem = validacao;
+
+                await _historicoImportacaoCNABService.Update(historico);
+
+                //Mover arquivo para a pasta de Erro
+                //_IOService.MoveArquivoErro()
+
                 return BadRequest(validacao);
+            }
+                
 
             var retornoProcessamento = await _processamentoArquivo.ProcessaArquivoCNAB(linhasCnab);
+            
             if (!string.IsNullOrEmpty(retornoProcessamento))
+            {
+                historico.Status = EnumStatusCNAB.Erro;
+                historico.Mensagem = retornoProcessamento;
+                
+                await _historicoImportacaoCNABService.Update(historico);
+
+                //Mover arquivo para a pasta de Erro
+                //_IOService.MoveArquivoErro()
+
                 return BadRequest(retornoProcessamento);
+            }
 
             return Ok("Processamento realizado com sucesso.");
         }
-
-
 
         [HttpGet("GetAllCNABEntrada")]
         public async Task<ActionResult<IEnumerable<string>>> GetAllCNABEntrada()
