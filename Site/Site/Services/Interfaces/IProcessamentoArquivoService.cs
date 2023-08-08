@@ -2,7 +2,7 @@
 {
     public interface IProcessamentoArquivoService
     {
-        Task<Dictionary<bool, string>> ProcessaArquivoPorCNABId(string nomeArquivo);
-        Task<Dictionary<bool, string>> ValidaArquivo(IEnumerable<string> linhasCNAB);
+        Task<Dictionary<bool, string>> ProcessaArquivoPorCNABId(IEnumerable<string> linhasCNAB);
+        Task<string> ValidaArquivo(IEnumerable<string> linhasCNAB);
     }
 }

@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Site.Services.Interfaces;
+﻿using Site.Services.Interfaces;
 using System.Text.RegularExpressions;
 
 namespace Site.Services
@@ -13,25 +12,17 @@ namespace Site.Services
             _IOService = iOService;
         }
 
-        public async Task<Dictionary<bool, string>> ProcessaArquivoPorCNABId(string nomeArquivo)
+        public async Task<Dictionary<bool, string>> ProcessaArquivoPorCNABId(IEnumerable<string> linhasCNAB)
         {
-            //Pegar o arquivo da pasta Entrada
-            //Ler o conteudo
-            var conteudo = await _IOService.LeCNABEntradaPorNomeArquivo(nomeArquivo);
-
-            //Validar estrutura
-            var retornoValidacao = await ValidaArquivo(conteudo);
-
-
-
             //Salvar as transações no banco
             //Atualizar o historico de CNAB com o mesmo ID : Se sucesso > Enum Processado, Se Erro > Enum Erro
 
             throw new NotImplementedException();
         }
 
-        public async Task<Dictionary<bool, string>> ValidaArquivo(IEnumerable<string> linhasCNAB)
+        public async Task<string> ValidaArquivo(IEnumerable<string> linhasCNAB)
         {
+            string msg = string.Empty;
             int linhaValidada = 1;
             string msgErro = "Erro Linha " + linhaValidada + " :";
             var validacao = new Dictionary<bool, string>();
@@ -41,45 +32,56 @@ namespace Site.Services
             {
                 //Tamanho da linha = 80
                 if (linha.Length != 80)
-                    validacao.Add(false, string.Concat(msgErro, " Tamanho de caracters invalido no arquivo"));
+                    return msg = string.Concat(msgErro, " Tamanho de caracters invalido no arquivo");
+
 
                 //0 até 34 tem que ser somente numeros
                 var somenteNumeros = new Regex("[0-9]").Match(linha.Substring(0, 34));
                 if (somenteNumeros.Success == false)
-                    validacao.Add(false, string.Concat(msgErro, " Posição 1 até 35 pode ser somente numeros"));
+                {
+                    return msg = string.Concat(msgErro, " Posição 1 até 35 pode ser somente numeros");
+                }
 
                 //Posicao 0:  tem que ser um numero de 0 a 9
-                var somenteUmAte9 = new Regex("\b([1-9]|10)\b").Match(linha.Substring(0, 0));
+                var somenteUmAte9 = new Regex("([1-9]|10)").Match(linha.Substring(0, 1));
                 if (somenteUmAte9.Success == false)
-                    validacao.Add(false, string.Concat(msgErro, " Posição 1 é permitido somente numeros de 0 a 9"));
+                    return msg = string.Concat(msgErro, " Tipo de transação invalido");
 
                 //Posicao 1 a 8: Data Valida
-                var dataValida = linha.Substring(1, 8);
+                var dataTransacao = linha.Substring(1, 8);
+                var ano = Convert.ToInt32(dataTransacao.Substring(0, 4));
+                var mes = Convert.ToInt32(dataTransacao.Substring(4, 2));
+                var dia = Convert.ToInt32(dataTransacao.Substring(6, 2));
+
+                var dataValida = new DateTime(ano, mes, dia);
 
                 //Posicao19 a 29: CPF valido
-                if (!IsCpf(linha.Substring(19, 29)))
-                    validacao.Add(false, string.Concat(msgErro, " Posição 20 até 30 CPF invalido"));
+                if (!IsCpf(linha.Substring(19, 11)))
+                    return msg = string.Concat(msgErro, " CPF invalido");
+
 
 
 
                 //30 a 41: Somente numeros
-                var somenteNumeros2 = new Regex("\b([1-9]|10)\b").Match(linha.Substring(30, 41));
+                var somenteNumeros2 = new Regex("[0-9]").Match(linha.Substring(38, 10));
                 if (somenteNumeros2.Success == false)
-                    validacao.Add(false, string.Concat(msgErro, " Posição 31 até 42 é permitido somente numeros"));
+                    return msg = string.Concat(msgErro, " Posição 31 até 42 é permitido somente numeros");
+
 
                 //42 a 48 hora valida
-                var horaValida = linha.Substring(42, 48);
+                var horaValida = linha.Substring(42, 6);
+                var hora = string.Concat(horaValida.Substring(0, 2), ":", horaValida.Substring(2, 2), ":", horaValida.Substring(4, 2));
 
                 //34 a 38 : 3 Asterisco
-                var somenteAsteriscos = new Regex("[*]").Match(linha.Substring(34, 38));
-                if (somenteAsteriscos.Success == false)
-                    validacao.Add(false, string.Concat(msgErro, " Posição 34 até 38 permitido somente ***"));
+                if (linha.Substring(34, 3) != "***")
+                    return msg = string.Concat(msgErro, " Posição 34 até 38 permitido somente ***");
+
 
                 linhaValidada++;
             }
 
 
-            throw new NotImplementedException();
+            return msg;
         }
 
         public static bool IsCnpj(string cnpj)
