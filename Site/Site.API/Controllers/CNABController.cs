@@ -56,10 +56,12 @@ namespace Site.API.Controllers
             var linhasCnab = await _IOService.LeCNABEntradaPorNomeArquivo(historico.NomeArquivo);
 
             var validacao = await _processamentoArquivo.ValidaArquivo(linhasCnab);
-
             if (!string.IsNullOrEmpty(validacao))
                 return BadRequest(validacao);
 
+            var retornoProcessamento = await _processamentoArquivo.ProcessaArquivoCNAB(linhasCnab);
+            if (!string.IsNullOrEmpty(retornoProcessamento))
+                return BadRequest(retornoProcessamento);
 
             return Ok("Processamento realizado com sucesso.");
         }

@@ -1,4 +1,6 @@
-﻿using Site.Services.Interfaces;
+﻿using Site.Enums;
+using Site.Models;
+using Site.Services.Interfaces;
 using System.Text.RegularExpressions;
 
 namespace Site.Services
@@ -6,18 +8,69 @@ namespace Site.Services
     public class ProcessamentoArquivoService : IProcessamentoArquivoService
     {
         private readonly ICNAB_IOService _IOService;
+        private readonly ITransacaoService _transacaoService;
 
-        public ProcessamentoArquivoService(ICNAB_IOService iOService)
+        public ProcessamentoArquivoService(ICNAB_IOService iOService, ITransacaoService transacaoService)
         {
             _IOService = iOService;
+            _transacaoService = transacaoService;
         }
 
-        public async Task<Dictionary<bool, string>> ProcessaArquivoPorCNABId(IEnumerable<string> linhasCNAB)
+        public async Task<string> ProcessaArquivoCNAB(IEnumerable<string> linhasCNAB)
         {
+            string msg = string.Empty;
+            int linhaValidada = 1;
+            string msgErro = "Erro Linha " + linhaValidada + " :";
+
+            foreach (var linha in linhasCNAB)
+            {
+                try
+                {
+                    var tipoTransacao = linha.Substring(0, 1);
+
+                    var dataTransacao = linha.Substring(1, 8);
+                    var ano = Convert.ToInt32(dataTransacao.Substring(0, 4));
+                    var mes = Convert.ToInt32(dataTransacao.Substring(4, 2));
+                    var dia = Convert.ToInt32(dataTransacao.Substring(6, 2));
+                    var dtFormatada = new DateTime(ano, mes, dia);
+
+
+                    var valor = Convert.ToDouble(linha.Substring(9, 10)) / 100;
+                    var cpfBeneficiario = linha.Substring(19, 11);
+                    var numeroCartao = linha.Substring(30, 12);
+
+                    var horaTransacao = linha.Substring(42, 6);
+                    var horaFormatada = new TimeSpan(Convert.ToInt32(horaTransacao.Substring(0, 2)), Convert.ToInt32(horaTransacao.Substring(2, 2)), Convert.ToInt32(horaTransacao.Substring(4, 2)));
+
+                    var nmDonoLoja = linha.Substring(48, 14);
+                    var nomeLoja = linha.Substring(62, 18);
+
+                    var transacao = new Transacao()
+                    {
+                        TipoTransacao = (EnumTipoTransacao)Convert.ToInt32(tipoTransacao),
+                        DtOcorrencia = dtFormatada,
+                        Valor = valor,
+                        CpfBeneficiario = cpfBeneficiario,
+                        NumeroCartao = numeroCartao,
+                        HoraTransacao = horaFormatada,
+                        DonoLoja = nmDonoLoja,
+                        NomeLoja = nomeLoja
+                    };
+
+                    var save = await _transacaoService.Add(transacao);
+                    linhaValidada++;
+                }
+                catch (Exception ex)
+                {
+
+                    throw new Exception("Erro ao tentar salvar a transação: " + msgErro + " " + ex.Message);
+                }
+            }
+
             //Salvar as transações no banco
             //Atualizar o historico de CNAB com o mesmo ID : Se sucesso > Enum Processado, Se Erro > Enum Erro
 
-            throw new NotImplementedException();
+            return msg;
         }
 
         public async Task<string> ValidaArquivo(IEnumerable<string> linhasCNAB)
@@ -25,8 +78,6 @@ namespace Site.Services
             string msg = string.Empty;
             int linhaValidada = 1;
             string msgErro = "Erro Linha " + linhaValidada + " :";
-            var validacao = new Dictionary<bool, string>();
-
 
             foreach (var linha in linhasCNAB)
             {

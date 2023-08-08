@@ -8,34 +8,93 @@ namespace Site.Services
     {
         public IUnitOfWork _unitOfWork;
 
-        public TransacaoService(IUnitOfWork unitOfWork)
+        public TransacaoService(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
+
+        public async Task<bool> Add(Transacao entity)
         {
-            _unitOfWork = unitOfWork;
+            if (entity != null)
+            {
+                entity.CreatedAt = DateTime.Now;
+
+                await _unitOfWork.Transacoes.Add(entity);
+
+                var result = _unitOfWork.Save();
+
+                if (result > 0)
+                    return true;
+                else
+                    return false;
+            }
+            return false;
         }
 
-        public Task<bool> Add(Transacao entity)
+        public async Task<bool> Delete(Guid id)
         {
-            throw new NotImplementedException();
+            if (id.ToString() != null)
+            {
+                var transacao = await _unitOfWork.Transacoes.GetById(id);
+
+                if (transacao != null)
+                {
+                    transacao.RemovedAt = DateTime.Now;
+
+                    _unitOfWork.Transacoes.Delete(transacao);
+
+                    var result = _unitOfWork.Save();
+
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+            }
+            return false;
         }
 
-        public Task<bool> Delete(Guid id)
+        public async Task<IEnumerable<Transacao>> GetAll()
         {
-            throw new NotImplementedException();
+            var transacoes = await _unitOfWork.Transacoes.GetAll();
+
+            return transacoes;
         }
 
-        public Task<IEnumerable<Transacao>> GetAll()
+        public async Task<Transacao> GetById(Guid id)
         {
-            throw new NotImplementedException();
+            var transacao = await _unitOfWork.Transacoes.GetById(id);
+            return transacao;
         }
 
-        public Task<Transacao> GetById(Guid id)
+        public async Task<bool> Update(Transacao entity)
         {
-            throw new NotImplementedException();
-        }
+            if (entity != null)
+            {
+                var transacao = await _unitOfWork.Transacoes.GetById(entity.Id);
 
-        public Task<bool> Update(Transacao entity)
-        {
-            throw new NotImplementedException();
+                if (transacao != null)
+                {
+                    transacao.TipoTransacao = entity.TipoTransacao;
+                    transacao.DtOcorrencia = entity.DtOcorrencia;
+                    transacao.Valor = entity.Valor;
+                    transacao.CpfBeneficiario = entity.CpfBeneficiario;
+                    transacao.NumeroCartao = entity.NumeroCartao;
+                    transacao.HoraTransacao = entity.HoraTransacao;
+                    transacao.DonoLoja = entity.DonoLoja;
+                    transacao.NomeLoja = entity.NomeLoja;
+
+
+                    transacao.UpdateAt = DateTime.Now;
+
+                    _unitOfWork.Transacoes.Update(transacao);
+
+                    var result = _unitOfWork.Save();
+
+                    if (result > 0)
+                        return true;
+                    else
+                        return false;
+                }
+            }
+            return false;
         }
     }
 }
