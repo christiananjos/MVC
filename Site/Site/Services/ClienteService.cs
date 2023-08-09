@@ -7,13 +7,8 @@ namespace Site.Services
     public class ClienteService : IClienteService
     {
         public IUnitOfWork _unitOfWork;
-        //private readonly ILogger<ClienteService> _logger;
 
-        public ClienteService(IUnitOfWork unitOfWork)
-        {
-            _unitOfWork = unitOfWork;
-            //_logger = logger;
-        }
+        public ClienteService(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
 
         public async Task<bool> Add(Cliente entity)
         {
@@ -109,9 +104,6 @@ namespace Site.Services
 
         public Task<bool> LogicalRemove(Cliente entity)
         {
-            //Pegar o usuario com CLAIMS
-            //_logger.LogInformation($"Usuario removeu lógicamente um registro");
-
             entity.RemovedAt = DateTime.Now;
 
             return Update(entity);

@@ -8,12 +8,10 @@ namespace Site.Services
     public class UsuarioService : IUsuarioService
     {
         public IUnitOfWork _unitOfWork;
-        //private readonly ILogger<UsuarioService> _logger;
 
         public UsuarioService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            //_logger = logger;
         }
 
         public async Task<bool> Add(Usuario entity)
@@ -112,9 +110,6 @@ namespace Site.Services
 
         public Task<bool> LogicalRemove(Usuario entity)
         {
-            //Pegar o usuario com CLAIMS
-            //_logger.LogInformation($"Usuario removeu lógicamente um registro");
-
             entity.RemovedAt = DateTime.Now;
             return Update(entity);
         }
@@ -132,9 +127,6 @@ namespace Site.Services
                     _unitOfWork.Usuarios.Update(usuarioQuery);
 
                     var result = _unitOfWork.Save();
-
-                    //Pegar o usuario com CLAIMS
-                    //_logger.LogInformation($"Usuario Xyz atualizou um registro");
 
                     if (result > 0)
                         return true;
