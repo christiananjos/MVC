@@ -36,40 +36,54 @@ namespace Site.Services
             }
         }
 
-        public void MoveArquivoErro(IFormFile file, string nomeArquivo)
+        public void MoveArquivoErro(string nomeArquivo)
         {
-            using (var stream = File.Create(string.Concat(pathErro, nomeArquivo)))
+            try
             {
-                file.CopyToAsync(stream);
+                File.Move(string.Concat(pathEntrada, nomeArquivo), string.Concat(pathErro, nomeArquivo));
+                File.Delete(string.Concat(pathEntrada, nomeArquivo));
             }
+            catch (Exception)
+            {
 
-            var arquivoEntradaPath = string.Concat(pathEntrada, nomeArquivo);
-
-            File.Delete(arquivoEntradaPath);
+                throw new Exception(string.Concat("Erro ao mover o arquivo", nomeArquivo, " para ", pathErro));
+            }
+           
         }
 
-        public void MoveArquivoSaida(IFormFile file, string nomeArquivo)
+        public void MoveArquivoSaida(string nomeArquivo)
         {
-            using (var stream = File.Create(string.Concat(pathSaida, nomeArquivo)))
+            try
             {
-                file.CopyToAsync(stream);
+                File.Move(string.Concat(pathEntrada, nomeArquivo), string.Concat(pathSaida, nomeArquivo));
 
+                File.Delete(string.Concat(pathEntrada, nomeArquivo));
+            }
+            catch (Exception)
+            {
+
+                throw new Exception(string.Concat("Erro ao mover o arquivo", nomeArquivo, " para ", pathSaida));
             }
 
-            var arquivoEntradaPath = string.Concat(pathEntrada, nomeArquivo);
-
-            File.Delete(arquivoEntradaPath);
 
         }
 
         public async Task<IEnumerable<string>> LeCNABEntradaPorNomeArquivo(string nomeArquivo)
         {
-            string[] txtConteudo = await File.ReadAllLinesAsync(string.Concat(pathEntrada, nomeArquivo));
-            
-            List<string> listItems = txtConteudo.ToList();
+            try
+            {
+                string[] txtConteudo = await File.ReadAllLinesAsync(string.Concat(pathEntrada, nomeArquivo));
 
+                List<string> listItems = txtConteudo.ToList();
+                return listItems;
 
-            return listItems;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(string.Concat("Erro ao tentar ler o arquivo: ", nomeArquivo, " no direrio ", pathEntrada));
+            }
+
         }
     }
 }
