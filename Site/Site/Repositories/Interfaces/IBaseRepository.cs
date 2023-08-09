@@ -10,6 +10,7 @@ namespace Site.Repositories.Interfaces
         Task<IEnumerable<T>> GetAll();
         Task<T> GetById(Guid id);
         Task<T> FindByConditionAsync(Expression<Func<T, bool>> predicate);
+        Task<IEnumerable<T>> GetByConditionAsync(Expression<Func<T, bool>> predicate);
         bool IfExistEntity(T entity);
     }
 }

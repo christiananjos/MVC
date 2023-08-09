@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Site.Data;
 using Site.Repositories.Interfaces;
+using System;
 using System.Linq.Expressions;
 
 namespace Site.Repositories
@@ -33,5 +34,7 @@ namespace Site.Repositories
         }
 
         public async Task<T> FindByConditionAsync(Expression<Func<T, bool>> predicate) => await _dbContext.Set<T>().FirstOrDefaultAsync(predicate);
+
+        public async Task<IEnumerable<T>> GetByConditionAsync(Expression<Func<T, bool>> predicate) => await _dbContext.Set<T>().Where(predicate).ToListAsync();
     }
 }

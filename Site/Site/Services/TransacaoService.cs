@@ -1,6 +1,8 @@
 ﻿using Site.Interfaces;
 using Site.Models;
+using Site.Models.Extrato;
 using Site.Services.Interfaces;
+using System.Linq;
 
 namespace Site.Services
 {
@@ -62,6 +64,41 @@ namespace Site.Services
         {
             var transacao = await _unitOfWork.Transacoes.GetById(id);
             return transacao;
+        }
+
+        public async Task<IEnumerable<Transacao>> GetTransacoesByNomeLoja(string nome)
+        {
+            var transacao = await _unitOfWork.Transacoes.GetByConditionAsync(x => x.NomeLoja == nome);
+            return transacao;
+        }
+
+        public async Task<TransacaoSaldo> CalculaTransacoes(string nome)
+        {
+            var transacao = await _unitOfWork.Transacoes.GetByConditionAsync(x => x.NomeLoja == nome);
+
+            double saldo = 0;
+
+            int[] rangeEntrada = { 1, 4, 5, 6, 7, 8 };
+            int[] rangeSaida = { 2, 3, 9 };
+
+            foreach (var item in transacao)
+            {
+                if (rangeEntrada.Contains((int)item.TipoTransacao))
+                {
+                    //Soma
+                    saldo += item.Valor;
+                }
+
+                if (rangeSaida.Contains((int)item.TipoTransacao))
+                {
+                    //Subtração
+                    saldo -= item.Valor;
+                }
+            }
+
+            var extrato = new TransacaoSaldo(transacao, saldo);
+
+            return extrato;
         }
 
         public async Task<bool> Update(Transacao entity)

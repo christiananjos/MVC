@@ -9,11 +9,13 @@ namespace Site.Services
     {
         private readonly ICNAB_IOService _IOService;
         private readonly ITransacaoService _transacaoService;
+        private readonly IClienteService _clienteService;
 
-        public ProcessamentoArquivoService(ICNAB_IOService iOService, ITransacaoService transacaoService)
+        public ProcessamentoArquivoService(ICNAB_IOService iOService, ITransacaoService transacaoService, IClienteService clienteService)
         {
             _IOService = iOService;
             _transacaoService = transacaoService;
+            _clienteService = clienteService;
         }
 
         public async Task<string> ProcessaArquivoCNAB(IEnumerable<string> linhasCNAB)
@@ -66,9 +68,6 @@ namespace Site.Services
                     throw new Exception("Erro ao tentar salvar a transação: " + msgErro + " " + ex.Message);
                 }
             }
-
-            //Salvar as transações no banco
-            //Atualizar o historico de CNAB com o mesmo ID : Se sucesso > Enum Processado, Se Erro > Enum Erro
 
             return msg;
         }
@@ -130,8 +129,6 @@ namespace Site.Services
 
                 linhaValidada++;
             }
-
-
             return msg;
         }
 
