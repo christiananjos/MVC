@@ -5,7 +5,8 @@ using Site.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Site.Data;
 using Site.Repositories.Interfaces;
-using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,7 +35,6 @@ builder.Services.AddScoped<ITransacaoService, TransacaoService>();
 builder.Services.AddScoped<IUsuarioVerificacaoService, UsuarioVerificacaoService>();
 builder.Services.AddScoped<ICNAB_IOService, CNAB_IOService>();
 builder.Services.AddScoped<IProcessamentoArquivoService, ProcessamentoArquivoService>();
-
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

@@ -24,10 +24,10 @@ namespace Site.API.Controllers
         public async Task<ActionResult> UploadCNAB(IFormFile file)
         {
             if (file.Length <= 0)
-                return BadRequest("Arquivo Vazio. Insira um arquivo com conteudo CNAB .txt");
+                return BadRequest("Arquivo Vazio. Insira um arquivo CNAB válido");
 
             if (Path.GetExtension(file.FileName) != ".txt")
-                return BadRequest("Arquivo invalido. Insira um arquivo com conteudo CNAB .txt");
+                return BadRequest("Arquivo invalido. Insira um arquivo CNAB válido");
 
             _IOService.CriaDiretoriosPrincipais();
             _IOService.UploadEntrada(file, file.FileName);
@@ -35,7 +35,7 @@ namespace Site.API.Controllers
             var historico = new HistoricoImportacaoCNAB()
             {
                 NomeArquivo = file.FileName,
-                Usuario = "Usuario Teste",
+                Usuario = "Teste",
                 Status = EnumStatusCNAB.AguardandoProcessamento
             };
 
