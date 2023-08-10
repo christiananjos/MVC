@@ -3,6 +3,6 @@
 ### O que foi usado?
 - .Net Core 7 
 - Repository Pattern
-- Autenticação e Autorização com JWT
+- Autenticação e Autorização com JWT (ainda não implementado)
 - API para testes das services implementadas.
 - Bootstrap
