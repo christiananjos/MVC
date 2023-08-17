@@ -52,15 +52,15 @@ namespace Site.API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Cliente>> Delete(Guid id)
         {
-            var user = await _clienteService.GetById(id);
+            var cliente = await _clienteService.GetById(id);
 
-            if (user == null)
+            if (cliente == null)
                 return NotFound("Cliente não existe");
 
-            if (user != null)
+            if (cliente != null)
             {
-                var userDeleted = await _clienteService.LogicalRemove(user);
-                return Ok(userDeleted);
+                var clienteDeleted = await _clienteService.LogicalRemove(cliente);
+                return Ok(clienteDeleted);
             }
 
             return Ok();

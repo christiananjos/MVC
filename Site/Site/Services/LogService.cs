@@ -58,6 +58,11 @@ namespace Site.Services
             return usuario;
         }
 
+        public Task<bool> LogicalRemove(Log entity)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<bool> Update(Log entity)
         {
             throw new NotImplementedException();

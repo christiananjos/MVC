@@ -33,6 +33,11 @@ namespace Site.Services
             throw new NotImplementedException();
         }
 
+        public Task<bool> LogicalRemove(UsuarioVerificacao entity)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<bool> Update(UsuarioVerificacao entity)
         {
             throw new NotImplementedException();

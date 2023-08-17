@@ -4,7 +4,7 @@ using Site.Services.Interfaces;
 
 namespace Site.Services
 {
-    public class EnderecoService: IEnderecoService
+    public class EnderecoService : IEnderecoService
     {
         public IUnitOfWork _unitOfWork;
 
@@ -33,7 +33,7 @@ namespace Site.Services
             if (id.ToString() != null)
             {
                 var enderecoQuery = await _unitOfWork.Enderecos.GetById(id);
-                
+
                 if (enderecoQuery != null)
                 {
                     enderecoQuery.RemovedAt = DateTime.Now;
@@ -70,6 +70,31 @@ namespace Site.Services
             return null;
         }
 
+        public async Task<Endereco> GetEnderecoPorCEP(string cep)
+        {
+            var addresses = await new Correios.NET.CorreiosService().GetAddressesAsync(cep);
+
+            var retornoEndereco = addresses.First();
+            
+            var endereco = new Endereco()
+            {
+                Logradouro = retornoEndereco.Street,
+                Bairro = retornoEndereco.District,
+                CEP = retornoEndereco.ZipCode.ToString(),
+                Cidade = addresses.First().City,
+                Estado = addresses.First().State
+            };
+
+            return endereco;
+        }
+
+        public Task<bool> LogicalRemove(Endereco entity)
+        {
+            entity.RemovedAt = DateTime.Now;
+
+            return Update(entity);
+        }
+
         public async Task<bool> Update(Endereco entity)
         {
             if (entity != null)
@@ -82,9 +107,11 @@ namespace Site.Services
                     enderecoQuery.Logradouro = entity.Logradouro;
                     enderecoQuery.Numero = entity.Numero;
                     enderecoQuery.Complemento = entity.Complemento;
+                    enderecoQuery.Bairro = entity.Bairro;
                     enderecoQuery.CEP = entity.CEP;
-                    enderecoQuery.UF = entity.UF;
+                    enderecoQuery.Cidade = entity.Cidade;
                     enderecoQuery.Estado = entity.Estado;
+                    enderecoQuery.Principal = entity.Principal;
                     enderecoQuery.UpdateAt = DateTime.Now;
 
                     _unitOfWork.Enderecos.Update(enderecoQuery);

@@ -133,5 +133,10 @@ namespace Site.Services
             }
             return false;
         }
+
+        public Task<bool> LogicalRemove(Transacao entity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

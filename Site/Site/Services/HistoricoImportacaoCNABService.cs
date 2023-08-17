@@ -106,5 +106,10 @@ namespace Site.Services
         {
             throw new NotImplementedException();
         }
+
+        public Task<bool> LogicalRemove(HistoricoImportacaoCNAB entity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -4,17 +4,6 @@ namespace Site.Models
 {
     public class Endereco : Base
     {
-        //public Endereco(Guid clienteId, string logradouro, int numero, string complemento, int cep, char uf, string estado)
-        //{
-        //    ClienteId = clienteId;
-        //    Logradouro = logradouro;
-        //    Numero = numero;
-        //    Complemento = complemento;
-        //    CEP = cep;
-        //    UF = uf;
-        //    Estado = estado;
-        //}
-
         [Required(ErrorMessage = "Campo obrigatório.")]
         [Display(Name = "ClienteId")]
         public Guid ClienteId { get; set; }
@@ -32,15 +21,23 @@ namespace Site.Models
         public string Complemento { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório.")]
-        [Display(Name = "CEP")]
-        public int CEP { get; set; }
+        [Display(Name = "Bairro")]
+        public string Bairro { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório.")]
-        [Display(Name = "UF")]
-        public char UF { get; set; }
+        [Display(Name = "CEP")]
+        public string CEP { get; set; }
+
+        [Required(ErrorMessage = "Campo obrigatório.")]
+        [Display(Name = "Cidade")]
+        public string Cidade { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório.")]
         [Display(Name = "Estado")]
         public string Estado { get; set; }
+
+        [Required(ErrorMessage = "Campo obrigatório.")]
+        [Display(Name = "Principal")]
+        public bool Principal { get; set; }
     }
 }
