@@ -4,14 +4,6 @@ namespace Site.Models
 {
     public class Cliente : Base
     {
-        public Cliente(string nome, string email, string cpfCnpj, string avatarPath)
-        {
-            Nome = nome;
-            Email = email;
-            CpfCnpj = cpfCnpj;
-            AvatarPath = avatarPath;
-        }
-
         [Required(ErrorMessage = "Campo obrigatório.")]
         [Display(Name = "Nome")]
         public string Nome { get; set; }
@@ -28,8 +20,8 @@ namespace Site.Models
         [Display(Name = "Avatar")]
         public string AvatarPath { get; set; }
 
-        [Display(Name = "Endereco")]
-        public List<Endereco> Enderecos { get; set; }
+        //[Display(Name = "Endereco")]
+        //public List<Endereco> Enderecos { get; set; }
 
     }
 }

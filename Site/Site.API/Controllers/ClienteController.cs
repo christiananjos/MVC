@@ -33,13 +33,12 @@ namespace Site.API.Controllers
             var clienteExist = await _clienteService.GetByName(cliente.Nome);
 
             if (clienteExist != null)
-            {
                 return StatusCode(409, $"Cliente '{cliente.Nome}' Já está em uso.");
-            }
 
-            var ClienteCreated = await _clienteService.Add(cliente);
 
-            return Ok(ClienteCreated);
+            var clienteCreated = await _clienteService.Add(cliente);
+
+            return Ok(clienteCreated);
         }
 
         [HttpPut]
@@ -53,7 +52,6 @@ namespace Site.API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Cliente>> Delete(Guid id)
         {
-
             var user = await _clienteService.GetById(id);
 
             if (user == null)

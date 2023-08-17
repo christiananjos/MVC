@@ -76,7 +76,7 @@ namespace Site.Services
                     cliente.Nome = entity.Nome;
                     cliente.Email = entity.Email;
                     cliente.AvatarPath = entity.AvatarPath;
-                    cliente.Enderecos = entity.Enderecos;
+                    //cliente.Enderecos = entity.Enderecos;
                     cliente.UpdateAt = DateTime.Now;
 
                     _unitOfWork.Clientes.Update(cliente);
